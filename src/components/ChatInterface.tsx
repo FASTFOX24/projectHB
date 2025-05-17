@@ -109,7 +109,11 @@ export const ChatInterface: React.FC = () => {
             disabled={isLoading}
             rows={1}
           />
-          <EnterButton type="submit" disabled={isLoading}>
+          <EnterButton 
+            type="submit" 
+            disabled={isLoading}
+            hasInput={inputValue.trim().length > 0}
+          >
             전송
           </EnterButton>
         </InputWrapper>

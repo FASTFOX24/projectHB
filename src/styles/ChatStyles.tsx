@@ -19,10 +19,15 @@ export const ChatContainer = styled.div`
   width: 100%;
   max-width: 800px;
   height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   background-color: #1a1a1a;
   position: relative;
+
+  @media (max-width: ${breakpoints.mobile}) {
+    height: 100dvh;
+  }
 `;
 
 export const Header = styled.div`
@@ -60,6 +65,7 @@ export const MessagesContainer = styled.div`
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
   transition: scrollbar-color 0.3s ease;
+  padding-bottom: env(safe-area-inset-bottom);
 
   &:hover,
   &:focus,
@@ -72,6 +78,7 @@ export const MessagesContainer = styled.div`
     gap: 12px;
   }
 
+  /* Chrome, Safari, Edge 용 스크롤바 스타일 */
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -146,11 +153,16 @@ export const MessageBubble = styled.div<StyledProps>`
 export const InputContainer = styled.form`
   display: flex;
   padding: 16px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
   background-color: #1a1a1a;
   border-top: 1px solid #2a2a2a;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
 
   @media (max-width: ${breakpoints.mobile}) {
     padding: 12px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
 `;
 
@@ -193,14 +205,14 @@ export const Input = styled.textarea`
   }
 `;
 
-export const EnterButton = styled.button`
+export const EnterButton = styled.button<{ hasInput: boolean }>`
   position: absolute;
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #666;
+  color: ${props => props.hasInput ? '#f07a03' : '#666'};
   padding: 8px;
   cursor: pointer;
   display: flex;
