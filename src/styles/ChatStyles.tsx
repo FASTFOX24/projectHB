@@ -26,7 +26,8 @@ export const ChatContainer = styled.div`
   position: relative;
 
   @media (max-width: ${breakpoints.mobile}) {
-    height: 100dvh;
+    height: -webkit-fill-available;
+    min-height: 100dvh;
   }
 `;
 
@@ -65,6 +66,7 @@ export const MessagesContainer = styled.div`
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
   transition: scrollbar-color 0.3s ease;
+  min-height: 0;
   padding-bottom: env(safe-area-inset-bottom);
 
   &:hover,
@@ -153,16 +155,16 @@ export const MessageBubble = styled.div<StyledProps>`
 export const InputContainer = styled.form`
   display: flex;
   padding: 16px;
-  padding-bottom: max(16px, env(safe-area-inset-bottom));
   background-color: #1a1a1a;
   border-top: 1px solid #2a2a2a;
   position: sticky;
   bottom: 0;
   width: 100%;
+  margin-top: auto;
 
   @media (max-width: ${breakpoints.mobile}) {
     padding: 12px;
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom, 12px);
   }
 `;
 

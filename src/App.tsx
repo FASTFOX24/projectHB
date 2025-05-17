@@ -9,10 +9,16 @@ const globalStyles = css`
     box-sizing: border-box;
   }
 
+  html {
+    height: -webkit-fill-available;
+  }
+
   body {
     color: #ffffff;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: #1a1a1a;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
   }
 `;
 
@@ -25,6 +31,7 @@ const breakpoints = {
 const AppContainer = styled.div`
   width: 100%;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   display: flex;
   justify-content: center;
 
