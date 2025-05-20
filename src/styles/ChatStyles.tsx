@@ -37,6 +37,10 @@ export const Header = styled.div`
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid #e6d9a3;
+  z-index: 2000;
+  position: sticky;
+  top: 0;
+  background-color: #f8efc4;
 
   @media (max-width: ${breakpoints.mobile}) {
     padding: 12px;
@@ -253,6 +257,7 @@ export const InputContainer = styled.form`
   bottom: 0;
   width: 100%;
   margin-top: auto;
+  z-index: 2000;
 
   @media (max-width: ${breakpoints.mobile}) {
     padding: 12px;
@@ -381,4 +386,72 @@ export const Dot = styled.div`
   &:nth-of-type(3) {
     animation-delay: 0.4s;
   }
+`;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ModalImage = styled.img`
+  max-width: 90vw;
+  max-height: 80vh;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.3);
+  background: #fff;
+`;
+
+export const BubbleImage = styled.img`
+  max-width: 220px;
+  width: 100%;
+  border-radius: 12px;
+  margin: 12px 0;
+  cursor: pointer;
+`;
+
+export const BubbleButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+`;
+
+export const BubbleButton = styled.button`
+  background: #f07a03;
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  padding: 8px 20px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(240,122,3,0.15);
+  transition: background 0.2s, box-shadow 0.2s;
+  letter-spacing: 1px;
+  &:hover {
+    background: #c95e00;
+    box-shadow: 0 6px 24px rgba(240,122,3,0.25);
+  }
+`;
+
+export const BubbleSpan = styled.span`
+  display: block;
+`;
+
+export const BubbleText = styled.span`
+  display: block;
+  white-space: pre-line;
+`;
+
+export const BubbleImagesWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 `; 
