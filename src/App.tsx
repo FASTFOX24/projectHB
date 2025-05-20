@@ -16,7 +16,7 @@ const globalStyles = css`
   body {
     color: #ffffff;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: #1a1a1a;
+    background-color: #f8efc4;
     min-height: 100vh;
     min-height: -webkit-fill-available;
   }

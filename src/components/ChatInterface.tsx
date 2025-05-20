@@ -4,7 +4,6 @@ import type { Message } from '../types/chat';
 import {
   ChatContainer,
   Header,
-  BotProfile,
   MessagesContainer,
   MessageBubble,
   InputContainer,
@@ -13,7 +12,14 @@ import {
   EnterButton,
   LoadingBubble,
   LoadingDots,
-  Dot
+  Dot,
+  HeaderLeft,
+  LogoImg,
+  BrandText,
+  HeaderRight,
+  ShareButton,
+  ShareIcon,
+  OptionButton
 } from '../styles/ChatStyles';
 
 export const ChatInterface: React.FC = () => {
@@ -61,7 +67,7 @@ export const ChatInterface: React.FC = () => {
     setTimeout(() => {
       const botMessage: Message = {
         id: Date.now(),
-        text: '안녕하세요! 무엇을 도와드릴까요?',
+        text: '월요일은 비가 10mm 이하가 법적 기준에 맞춰 콘크리트 작업을 할 수 있습니다. 화수목은 내장 유리 창호, 벽체 작업등을 추천합니다. 해당에 맞춰 추천 공정표를 짜드리겠습니다.',
         isUser: false,
       };
       setMessages(prev => [...prev, botMessage]);
@@ -78,8 +84,23 @@ export const ChatInterface: React.FC = () => {
 
   return (
     <ChatContainer>
-      <Header>
-        <BotProfile>HB</BotProfile>
+      <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <HeaderLeft>
+          <LogoImg src="/logo.png" alt="로고" />
+          <BrandText>HOBANI</BrandText>
+        </HeaderLeft>
+        <HeaderRight>
+          <ShareButton title="공유하기">
+            <ShareIcon viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="15" cy="5" r="2" stroke="#575553" strokeWidth="1.5"/>
+              <circle cx="5" cy="10" r="2" stroke="#575553" strokeWidth="1.5"/>
+              <circle cx="15" cy="15" r="2" stroke="#575553" strokeWidth="1.5"/>
+              <path d="M7 10.5L13 14" stroke="#575553" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M7 9.5L13 6" stroke="#575553" strokeWidth="1.5" strokeLinecap="round"/>
+            </ShareIcon>
+          </ShareButton>
+          <OptionButton title="옵션">⋮</OptionButton>
+        </HeaderRight>
       </Header>
       <MessagesContainer>
         {messages.map((message) => (
