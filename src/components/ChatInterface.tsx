@@ -414,7 +414,7 @@ export const ChatInterface: React.FC = () => {
       <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <HeaderLeft>
           <LogoImg src="/logo.png" alt="로고" />
-          <BrandText>HOBANI</BrandText>
+          <BrandText>HOBANAI</BrandText>
         </HeaderLeft>
         <HeaderRight>
           <ShareButton title="공유하기">
