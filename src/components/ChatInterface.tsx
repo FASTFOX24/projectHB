@@ -93,7 +93,7 @@ export const ChatInterface: React.FC = () => {
     }
 
     // 공정계획 추천 커스텀 응답
-    if (inputValue.trim() === '내일부터 1주일동안 비가 내려서 콘크리트 타설을 다음주 월요일로 미뤄야 할 거 같아. 공정계획 추천해줘.') {
+    if (inputValue.trim() === '내일부터 1주일동안 비가 내려서 콘크리트 타설을 다음주 월요일로 미뤄야 할 거 같아 공정계획 추천해줘') {
       const botMessage: Message = {
         id: Date.now() + 2,
         text: (
@@ -103,7 +103,7 @@ export const ChatInterface: React.FC = () => {
               src="/weather.png"
               onClick={() => { setModalImg('/weather.png'); setModalOpen(true); }}
             /><br />
-            기상청의 날씨 데이터를 기반으로 분석한 결과, 차주 일주일간 기상악화로 인해 콘크리트 타설이 불가능합니다. 호반건설의 타 현장 사례들을 분석하여 최적의 공정계획을 3가지 제안드리겠습니다.
+            기상청의 날씨 데이터를 기반으로 분석한 결과, 차주 일주일간 기상악화로 인해 콘크리트 타설이 불가능합니다. 호반건설의 타 현장 사례들을 분석하여 최적의 공정계획을 2가지 제안드리겠습니다.
           </span>
         ),
         isUser: false,
@@ -153,11 +153,11 @@ export const ChatInterface: React.FC = () => {
     }
 
     // 좋아 2번으로 선택할게. 이 공정표를 공유폴더의 주간, 월간, 전체 공정표에 수정해서 반영해줘
-    if (inputValue.trim() === '좋아 2번으로 선택할게. 이 공정표를 공유폴더의 주간, 월간, 전체 공정표에 수정해서 반영해줘') {
-      if (lastUserQuestion === '내일부터 1주일동안 비가 내려서 콘크리트 타설을 다음주 월요일로 미뤄야 할 거 같아. 공정계획 추천해줘.') {
+    if (inputValue.trim() === '좋아 2번으로 선택할게 이 공정표를 공유폴더의 주간, 월간, 전체 공정표에 수정해서 반영해줘') {
+      if (lastUserQuestion === '내일부터 1주일동안 비가 내려서 콘크리트 타설을 다음주 월요일로 미뤄야 할 거 같아 공정계획 추천해줘') {
         const msg1: Message = {
           id: Date.now() + 10,
-          text: '네, 주간 공정표와 월간 공정표를 수정하겠습니다.',
+          text: '네, 주간 공정표와 월간 공정표, 전체 공정표를 수정하겠습니다.',
           isUser: false,
         };
         const msg2: Message = {
@@ -190,6 +190,21 @@ export const ChatInterface: React.FC = () => {
           text: '월간 공정표 수정 완료했습니다.',
           isUser: false,
         };
+        const msg6: Message = {
+          id: Date.now() + 15,
+          text: (
+            <BubbleImage
+              src="/chart_5.png"
+              onClick={() => { setModalImg('/chart_5.png'); setModalOpen(true); }}
+            />
+          ),
+          isUser: false,
+        };
+        const msg7: Message = {
+          id: Date.now() + 16,
+          text: '전체 공정표 수정 완료했습니다.',
+          isUser: false,
+        };
         setTimeout(() => {
           setMessages(prev => [...prev, msg1]);
           setIsLoading(false);
@@ -201,6 +216,12 @@ export const ChatInterface: React.FC = () => {
                 setMessages(prev => [...prev, msg4]);
                 setTimeout(() => {
                   setMessages(prev => [...prev, msg5]);
+                  setTimeout(() => {
+                    setMessages(prev => [...prev, msg6]);
+                    setTimeout(() => {
+                      setMessages(prev => [...prev, msg7]);
+                    }, 500);
+                  }, 500);
                 }, 500);
               }, 500);
             }, 500);
