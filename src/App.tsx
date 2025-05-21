@@ -1,4 +1,6 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ChatInterface } from './components/ChatInterface';
+import AboutPage from './components/AboutPage';
 import styled from '@emotion/styled';
 import { Global, css } from '@emotion/react';
 
@@ -52,9 +54,15 @@ function App() {
   return (
     <>
       <Global styles={globalStyles} />
+      <BrowserRouter>
       <AppContainer>
-        <ChatInterface />
+          <Routes>
+            <Route path="/chatbot" element={<ChatInterface />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="*" element={<Navigate to="/chatbot" replace />} />
+          </Routes>
       </AppContainer>
+      </BrowserRouter>
     </>
   );
 }

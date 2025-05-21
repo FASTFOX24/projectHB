@@ -35,7 +35,7 @@ export const Header = styled.div`
   padding: 16px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   border-bottom: 1px solid #e6d9a3;
   z-index: 2000;
   position: sticky;
@@ -454,4 +454,32 @@ export const BubbleImagesWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+`;
+
+export const AboutButtonGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+`;
+
+export const AboutButton = styled.button`
+  background: #e8e8e8;
+  color: #575553;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  text-align: center;
+  letter-spacing: 0.5px;
+  width: 100%;
+  &:hover {
+    background: #d8d8d8;
+    color: #575553;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
 `; 

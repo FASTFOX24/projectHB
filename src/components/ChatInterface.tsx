@@ -411,7 +411,7 @@ export const ChatInterface: React.FC = () => {
 
   return (
     <ChatContainer>
-      <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <Header>
         <HeaderLeft>
           <LogoImg src="/logo.png" alt="로고" />
           <BrandText>HOBANAI</BrandText>
