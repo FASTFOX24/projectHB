@@ -482,4 +482,16 @@ export const AboutButton = styled.button`
     color: #575553;
     box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   }
+`;
+
+export const ResponseImage = styled.img`
+  max-width: 200px;
+  height: auto;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `; 
