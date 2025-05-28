@@ -361,20 +361,151 @@ export const ChatInterface: React.FC = () => {
       }
     }
 
-    if (inputValue.trim() === '자재 일지랑 공사일보에 있는 데이터를 바탕으로 기성문서를 작성해줘') {
+    if (inputValue.trim() === '자재 일지랑 공사일보에 있는 데이터를 바탕으로 기성문서를 작성해서 기안문까지 올려줘') {
+      
+      if (lastUserQuestion === '위의 데이터로 자재일지 작성해줘') {
+        const msg1: Message = {
+          id: Date.now() + 50,
+          text: '지난 1달간의 자재일지와 공사일보를 분석하여 출력인원 및 자재 발주량을 산출했습니다. 공사일보와 공정표를 분석하여 시공량을 산출했습니다. 이를 바탕으로 기성문서 및 기안문을 작성하겠습니다. 실제 현장상황과 다를 수 있으니 검토 부탁드립니다.',
+          isUser: false,
+        };
+        const msg2: Message = {
+          id: Date.now() + 51,
+          text: `지난 한 달간의 데이터로 산출한 '자재일지' 총합본입니다.`,
+          isUser: false,
+        };
+        const msg3: Message = {
+          id: Date.now() + 52,
+          text: (
+            <BubbleImage
+              src="/logbook.png"
+              onClick={() => { setModalImg('/logbook.png'); setModalOpen(true); }}
+            />
+          ),
+          isUser: false,
+        };
+        const msg4: Message = {
+          id: Date.now() + 53,
+          text: `지난 한 달간의 출력으로 산출한 '노무비 지금명세서'입니다.`,
+          isUser: false,
+        };
+        const msg5: Message = {
+          id: Date.now() + 54,
+          text: (
+            <BubbleImage
+              src="/statement.png"
+              onClick={() => { setModalImg('/statement.png'); setModalOpen(true); }}
+            />
+          ),
+          isUser: false,
+        };
+        const msg6: Message = {
+          id: Date.now() + 55,
+          text: '기존의 기안문 양식을 바탕으로 작성한 기안문입니다.',
+          isUser: false,
+        };
+        const msg7: Message = {
+          id: Date.now() + 56,
+          text: (
+            <BubbleImage
+              src="/statement_1.png"
+              onClick={() => { setModalImg('/statement_1.png'); setModalOpen(true); }}
+            />
+          ),
+          isUser: false,
+        };
+        setTimeout(() => {
+          setMessages(prev => [...prev, msg1]);
+          setIsLoading(false);
+          setTimeout(() => {
+            setMessages(prev => [...prev, msg2]);
+            setTimeout(() => {
+              setMessages(prev => [...prev, msg3]);
+              setTimeout(() => {
+                setMessages(prev => [...prev, msg4]);
+                setTimeout(() => {
+                  setMessages(prev => [...prev, msg5]);
+                  setTimeout(() => {
+                    setMessages(prev => [...prev, msg6]);
+                    setTimeout(() => {
+                      setMessages(prev => [...prev, msg7]);
+                    }, 500);
+                  }, 500);
+                }, 500);
+              }, 500);
+            }, 500);
+          }, 500);
+        }, 3000);
+        return;
+      }
+    }
+
+    // 상수공 공사 서류처리 절차 안내
+    if (inputValue.trim() === '우리 현장에 25년 4월부터 상수공 공사가 시작될 것 같아 관련해서 서류처리해야 할 게 뭐가 있을까?') {
+      const botMessage: Message = {
+        id: Date.now() + 100,
+        text: `건설 현장 새로운 공정 도입 시 다음과 같은 절차가 필요합니다.\n\n1. 공문 발송\n2. 시공계획서, 상수공 계획도면 등 참고자료 첨부\n3. 감리단, 현장 관리자 등 결재\n4. 각종 회의자료 업데이트`,
+        isUser: false,
+      };
+      setTimeout(() => {
+        setMessages(prev => [...prev, botMessage]);
+        setIsLoading(false);
+      }, 3000);
+      return;
+    }
+
+    // 상수공 공사 서류처리 절차 실행
+    if (inputValue.trim() === '너가 말한 절차 바로 처리해줘') {
+      if (lastUserQuestion === '우리 현장에 25년 4월부터 상수공 공사가 시작될 것 같아 관련해서 서류처리해야 할 게 뭐가 있을까?') {
+        const msg1: Message = {
+          id: Date.now() + 110,
+          text: `알겠습니다. 기존 입력된 공문 양식을 바탕으로 생성하였습니다.\n\n1. '25-059 공문.hwp' 생성\n2. '상수공 시공계획서.xlsx' 출력\n3. 현장관리자 (자사 직원 13명) 결재요청\n4. 25년 04월 이후 '주간공정회의 자료', '발주처 회의 자료', '협력업체 회의 자료' 업데이트`,
+          isUser: false,
+        };
+        const msg2: Message = {
+          id: Date.now() + 111,
+          text: (
+            <BubbleImage
+              src="/officialform.png"
+              onClick={() => { setModalImg('/officialform.png'); setModalOpen(true); }}
+            />
+          ),
+          isUser: false,
+        };
+        const msg3: Message = {
+          id: Date.now() + 112,
+          text: '입력되어 있던 공문 양식을 바탕으로 생성하였습니다.',
+          isUser: false,
+        };
+        setTimeout(() => {
+          setMessages(prev => [...prev, msg1]);
+          setIsLoading(false);
+          setTimeout(() => {
+            setMessages(prev => [...prev, msg2]);
+            setTimeout(() => {
+              setMessages(prev => [...prev, msg3]);
+            }, 500);
+          }, 500);
+        }, 3000);
+        return;
+      }
+    }
+
+    // AI 검측요청서 활용 방법 안내
+    if (inputValue.trim() === 'AI를 검측요청서에 어떻게 적용할 수 있을까?') {
       const msg1: Message = {
-        id: Date.now() + 60,
-        text: '지난 1달간의 자재일지와 공사일보를 분석하여 출력인원 및 자재 발주량을 산출했습니다.',
+        id: Date.now() + 120,
+        text: `검측요청서에 다음과 같이 활용될 수 있습니다:\n\n1. 자동 문서 작성: 공정명, 일자 등만 입력하면 자동으로 요청서 작성\n2. 이전 요청서 불러오기: 유사 공정의 과거 문서를 참고\n3. 검사항목 자동 생성: 공정별 체크리스트 자동 삽입\n4. 사진/도면 자동 첨부: 검측 사진을 위치, 시간데이터 기반으로 자동으로 첨부\n\n이러한 도움을 줄 수 있어요.`,
         isUser: false,
       };
       const msg2: Message = {
-        id: Date.now() + 61,
-        text: '공사일보와 공정표를 분석하여 시공량을 산출했습니다.',
-        isUser: false,
-      };
-      const msg3: Message = {
-        id: Date.now() + 62,
-        text: '이를 바탕으로 기성문서를 작성하겠습니다. 실제 현장상황과 다를 수 있으니 검토 부탁드립니다.',
+        id: Date.now() + 121,
+        text: (
+          <BubbleImage
+            src="/automation.png"
+            onClick={() => { setModalImg('/automation.png'); setModalOpen(true); }}
+          />
+        ),
         isUser: false,
       };
       setTimeout(() => {
@@ -382,9 +513,6 @@ export const ChatInterface: React.FC = () => {
         setIsLoading(false);
         setTimeout(() => {
           setMessages(prev => [...prev, msg2]);
-          setTimeout(() => {
-            setMessages(prev => [...prev, msg3]);
-          }, 500);
         }, 500);
       }, 3000);
       return;

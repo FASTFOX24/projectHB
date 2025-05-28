@@ -30,7 +30,7 @@ interface Message {
 }
 
 const WELCOME_MESSAGE = `안녕하세요. 플랜P 고객님!
-호반건설 인공지능 어시스턴트 HOBANAI에요.
+호반건설 인공지능 어시스턴트 HOBANAI에요. 😊
 무엇을 도와드릴까요?`;
 
 const ACTION_BUTTONS = [
@@ -108,9 +108,6 @@ const HOBAN_SUBSIDIARIES = `호반그룹 주요 계열사 소개
 · 아브뉴프랑: 상업시설 및 임대형 스트리트몰 운영.
 · 공익법인: 호반문화재단, 호반장학재단 등.\n
 호반그룹은 건설, 제조, 리조트, 골프, 유통, 미디어, 금융 등 다양한 사업군을 아우르며, 각 분야별로 특화된 계열사를 통해 사업을 확장하고 있습니다.`;
-
-const HOBAN_CHARACTER = `귀염둥이 주니어 멘티 호니 & 든든한 시니어 멘토 바니!
-호반그룹이 소중히 생각하는 "함께 소통하며 성장하는 문화"를 강조하고 "친근하면서 밝은 그룹의 이미지"를 전달해요.`;
 
 const AI_IDEA_BUTTONS = ['시공지침', '공사일보 자동 작성', '도면 비교 분석'];
 const GUIDE_DETAIL_BUTTONS = ['건축', '토목,조경', '설비,소방', 'TBM(기계)'];
@@ -287,7 +284,11 @@ const AboutPage: React.FC = () => {
         id: Date.now() + 1,
         text: (
           <>
-            {HOBAN_CHARACTER}
+            <div style={{ marginBottom: '12px' }}>
+              귀염둥이 주니어 멘티 호니 & 든든한 시니어 멘토 바니!
+              <br /><br />
+              호반그룹이 소중히 생각하는 "함께 소통하며 성장하는 문화"를 강조하고 "친근하면서 밝은 그룹의 이미지"를 전달합니다.
+            </div>
             <div style={{ 
               display: 'flex', 
               gap: '8px', 
@@ -335,28 +336,59 @@ const AboutPage: React.FC = () => {
         ),
         isUser: false,
       };
-    } else if (buttonText === '시공지침') {
-      botResponse = {
+    } else if (buttonText === '건축') {
+      const userMsg1 = {
+        id: Date.now(),
+        text: '균열 유도줄룬 커팅 시공기준을 알려줘',
+        isUser: true,
+      };
+      const botMsg1 = {
         id: Date.now() + 1,
         text: (
           <>
-            {GUIDE_DETAIL_TEXT.split('\n').map((line, idx) => (
-              <React.Fragment key={idx}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
-            <AboutButtonGroup>
-              {GUIDE_DETAIL_BUTTONS.map((text, idx) => (
-                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
-                  {text}
-                </AboutButton>
-              ))}
-            </AboutButtonGroup>
+            균열 유도줄눈 커팅 시공기준은 다음과 같습니다.<br />
+            - 시공부위 : 지하주차장, 옥상바닥의 누름 콘크리트 타설부위.<br />
+            - 시공시점 : 누름콘크리트 타설 후 3~5일 전후로 건조수축이 발생하기 전.<br />
+            - 시공간격 : 지하주차장 기둥 중심선 간격이 6m이하일 떄 1줄, 6m초과할 때 2줄<br /><br />
+            시공규격<br />
+            -  주차장 최하층: 3 X 20 (폭 3mm, 깊이 20mm, Slab 두께의 1/5 이상 절단)<br />
+            -  주차장 중    층: 6 X 40 (폭 6mm, 깊이 40mm, Slab 두께의 1/4 이상 절단)<br />
+            -  아파트 옥    상: 4 X 40 (폭 4mm, 깊이 40mm, Slab 두께의 1/4 이상 절단)<br /><br />
+            자세한 사항은 아래 호반건설 사내 건축기술지침[HGE-H5-002]를 참고해주시기 바랍니다.<br /><br />
+            <ResponseImage src="/guidebook_2.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_2.png')} />
           </>
         ),
         isUser: false,
       };
+      const userMsg2 = {
+        id: Date.now() + 2,
+        text: '조적공종을 다음주 월요일에 들어오는데 내가 알아두고 확인할 사항들을 정리해줘',
+        isUser: true,
+      };
+      const botMsg2 = {
+        id: Date.now() + 3,
+        text: (
+          <>
+            다음과 같은 사항을 확인해야 합니다.<br />
+            1. 선행공종 작업확인<br /><br />
+            · 문틀시공 및 바닥 먹매김 상태를 확인한다.<br />
+            · 설비배관, 전선관, 기타 매입물 등의 시공상태를 확인<br />
+            · AD/PD 내부면의 Flat Tie 등의 제거 여부 및 바닥 개구부 Open 상태를 확인한다.<br />
+            · 설비배관류 보온재 시공 유무, 외벽 단열재 적정시공 여부를 확인한다.<br /><br />
+            2. 자재운반 및 앵커철물 설치<br />
+            · 동별, 세대별 투입 예상물량 확인후 운반하고, 잔여자재는 즉시 반출 또는 상부층으로 운반하여 사용한다.<br />
+            · 앵커철물 설치기준(층고 2,830 ㎜ 기준)<br />
+            ① 바닥먹 위치 확인후 수직먹을 정밀 시공한다.<br />
+            ② 욕 실 : 4 단째를 시작으로 5 단(@330 ㎜)마다 총 7 개 시공<br />
+            ③ 욕실 외 : 4 단째를 시작으로 9 단(@600 ㎜)마다 총 4 개 시공<br /><br />
+            자세한 사항은 아래 건축기술지침 [HGE-H5-002]을 참고해주시기 바랍니다.<br /><br />
+            <ResponseImage src="/guidebook_3.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_3.png')} />
+          </>
+        ),
+        isUser: false,
+      };
+      setMessages(prev => [...prev, userMsg1, botMsg1, userMsg2, botMsg2]);
+      return;
     } else if (buttonText === '토목,조경') {
       const userMsg = {
         id: Date.now(),
@@ -367,8 +399,7 @@ const AboutPage: React.FC = () => {
         id: Date.now() + 1,
         text: (
           <>
-          흙막이 공사 일반사항은 다음과 같습니다.<br /><br/> 
-            1. 흙막이 공법의 결정 및 설계와 계산은 설계도서, 지반조사보고서의 결과와 지중 매설물, 장애물의 조사서 및 주변 여건을 고려하여 지반공학 전문가의 자문을 받아 결정한다.<br />
+          토목,조경 A. 흙막이 공법의 결정 및 설계와 계산은 설계도서, 지반조사보고서의 결과와 지중 매설물, 장애물의 조사서 및 주변 여건을 고려하여 지반공학 전문가의 자문을 받아 결정한다.<br />
             2. 현장조건이 변화되어 흙막이 공법 또는 설계를 변경할 필요가 발생했을 경우 설계사와 협의 후, 적법한 절차를 통해서 변경승인 후 시행한다.<br />
             3. 터파기 착수 전에 흙막이 계획서를 감리단에 제출 후 승인을 받아야 한다.<br />
             4. 흙막이 설치 및 존치기간 중에는 안정상 필요한 계측과 점검을 하고 이상이 발견되었을 때에는 신속히 보강하거나 기타 필요한 조치를 한다.<br /><br />
@@ -409,6 +440,44 @@ const AboutPage: React.FC = () => {
             · 하부 순수패드 : 마감에서 600mm 이상<br /><br />
             자세한 사항은 아래 호반건설 사내 시공표준화를 참고해주시기 바랍니다.<br /><br />
             <ResponseImage src="/guidebook_1.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_1.png')} />
+          </>
+        ),
+        isUser: false,
+      };
+      setMessages(prev => [...prev, userMsg, botMsg]);
+      return;
+    } else if (buttonText === 'TBM(기계)') {
+      const userMsg = {
+        id: Date.now(),
+        text: 'TBM 및 터널 내 운반, 보급, 취급 지침에 대해 설명해줘',
+        isUser: true,
+      };
+      const botMsg = {
+        id: Date.now() + 1,
+        text: (
+          <>
+            터널 내 운반 지침은 다음과 같습니다.<br /><br />
+            1. 버력처리 계획 수립 시에는 터널크기, 연장, 경사, 버력량, 버력상태, 사용장비의 특성, 주변여건, 공정 등을 고려하여야 한다.<br /><br />
+            2. 운반체계 수립 시에는 버력운반이 굴착공정에 지장을 주지 않도록 하여야 한다.<br /><br />
+            3. 터널 내 운반장비의 안전운행을 위해서는 운행규정을 수립하고 운전원 및 작업원들에게 안전 운행에 관한 교육을 실시하여야 한다.<br /><br />
+            TBM 운반에 대해서 설명드리겠습니다.<br /><br />
+            1. 현장까지 TBM이 원활히 운반될 수 있도록 장비분할과 운반로를 선정하여야 한다. 또한 운반 도중에 지상 및 지하구조물에 손상이 발생하지 않도록 현황을 파악하고 대책을 수립하여야 한다.<br /><br />
+            2. 제작사로부터 현장에 공급될 때까지 외부의 충격 등에 손상되지 않도록 TBM이 보호된 상태로 공급하여야 한다.<br /><br />
+            재료보관소 및 창고에 대해서 설명드리겠습니다.<br /><br />
+            1. 재료보관소 및 창고는 공정에 지장이 없도록 세그먼트 및 부속재료, 가설재료, 시공용 기계 및 기구 등을 저장할 수 있는 공간을 확보하여야 한다.<br /><br />
+            2. 선행공종 작업확인<br />
+            · 문틀시공 및 바닥 먹매김 상태를 확인한다.<br />
+            · 설비배관, 전선관, 기타 매입물 등의 시공상태를 확인<br />
+            · AD/PD 내부면의 Flat Tie 등의 제거 여부 및 바닥 개구부 Open 상태를 확인한다.<br />
+            · 설비배관류 보온재 시공 유무, 외벽 단열재 적정시공 여부를 확인한다.<br /><br />
+            3. 자재운반 및 앵커철물 설치<br />
+            · 동별, 세대별 투입 예상물량 확인후 운반하고, 잔여자재는 즉시 반출 또는 상부층으로 운반하여 사용한다.<br />
+            · 앵커철물 설치기준(층고 2,830 ㎜ 기준)<br />
+            ① 바닥먹 위치 확인후 수직먹을 정밀 시공한다.<br />
+            ② 욕 실 : 4 단째를 시작으로 5 단(@330 ㎜)마다 총 7 개 시공<br />
+            ③ 욕실 외 : 4 단째를 시작으로 9 단(@600 ㎜)마다 총 4 개 시공<br /><br />
+            자세한 사항은 아래 건축기술지침 [HGE-H5-002]을 참고해주시기 바랍니다.<br /><br />
+            <ResponseImage src="/guidebook_4.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_4.png')} />
           </>
         ),
         isUser: false,
@@ -471,6 +540,28 @@ const AboutPage: React.FC = () => {
             <span style={{fontWeight:"bold",color:"#f07a03"}}>정명훈</span>: Plan P의 조원<br />오산세교2 A13BL에서 설비직으로 근무 중.<br /><br />
             <span style={{fontWeight:"bold",color:"#f07a03"}}>정현우</span>: Plan P의 조원<br />춘천-속초 1공구에서 TBM 기계직으로 근무 중<br /><br />
             <span style={{fontWeight:"bold",color:"#f07a03"}}>박상현</span>: Plan P의 조원<br />오산세교2 A13BL에서 건축직으로 근무 중.<br />
+          </>
+        ),
+        isUser: false,
+      };
+    } else if (buttonText === '시공지침') {
+      botResponse = {
+        id: Date.now() + 1,
+        text: (
+          <>
+            {GUIDE_DETAIL_TEXT.split('\n').map((line, idx) => (
+              <React.Fragment key={idx}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))}
+            <AboutButtonGroup>
+              {GUIDE_DETAIL_BUTTONS.map((text, idx) => (
+                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                  {text}
+                </AboutButton>
+              ))}
+            </AboutButtonGroup>
           </>
         ),
         isUser: false,
