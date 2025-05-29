@@ -27,6 +27,7 @@ interface Message {
   id: number;
   text: string | React.ReactNode;
   isUser: boolean;
+  type?: string;
 }
 
 const WELCOME_MESSAGE = `안녕하세요. 플랜P 고객님!
@@ -571,7 +572,12 @@ const AboutPage: React.FC = () => {
         id: Date.now() + 1,
         text: (
           <>
-            {WELCOME_MESSAGE}
+            {WELCOME_MESSAGE.split('\n').map((line, idx) => (
+              <React.Fragment key={idx}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))}
             <AboutButtonGroup>
               {ACTION_BUTTONS.map((text, idx) => (
                 <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
@@ -623,6 +629,34 @@ const AboutPage: React.FC = () => {
     setInputValue('');
   };
 
+  const handleRestart = () => {
+    setMessages(prev => [
+      ...prev,
+      {
+        id: Date.now(),
+        type:'welcomeMessage',
+        text: (
+          <>
+            {WELCOME_MESSAGE.split('\n').map((line, idx) => (
+              <React.Fragment key={idx}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))}
+            <AboutButtonGroup>
+              {ACTION_BUTTONS.map((text, idx) => (
+                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                  {text}
+                </AboutButton>
+              ))}
+            </AboutButtonGroup>
+          </>
+        ),
+        isUser: false,
+      }
+    ]);
+  };
+
   return (
     <ChatContainer>
       <Header>
@@ -644,7 +678,7 @@ const AboutPage: React.FC = () => {
         </HeaderRight>
       </Header>
       <MessagesContainer>
-        {messages.map((message) => (
+        {messages.map((message, idx) => (
           <MessageBubble key={message.id} isUser={message.isUser}>
             {typeof message.text === 'string'
               ? message.text.split('\n').map((line, idx) => (
@@ -654,13 +688,18 @@ const AboutPage: React.FC = () => {
                   </React.Fragment>
                 ))
               : message.text}
-            {!message.isUser && message.id === messages[0].id && (
+            {!message.isUser && idx === 0 && (
               <AboutButtonGroup>
                 {ACTION_BUTTONS.map((text, idx) => (
                   <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
                     {text}
                   </AboutButton>
                 ))}
+              </AboutButtonGroup>
+            )}
+            {!message.isUser && idx === messages.length - 1 && messages.length > 1 && message.type !== "welcomeMessage" && (
+              <AboutButtonGroup style={{ justifyContent: 'flex-end', gap: 14 }}>
+                <AboutButton onClick={handleRestart}>다른 질문 시작하기</AboutButton>
               </AboutButtonGroup>
             )}
           </MessageBubble>
