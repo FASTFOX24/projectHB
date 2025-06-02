@@ -24,6 +24,10 @@ import {
   ModalImage,
   BubbleImage,
   BubbleButton,
+  MessageWrapper,
+  ProfileImage,
+  MessageContent,
+  ProfileName,
 } from '../styles/ChatStyles';
 
 type Message = Omit<MessageBase, 'text'> & { text: string | React.ReactNode };
@@ -559,25 +563,40 @@ export const ChatInterface: React.FC = () => {
       </Header>
       <MessagesContainer>
         {messages.map((message) => (
-          <MessageBubble key={message.id} isUser={message.isUser}>
-            {typeof message.text === 'string'
-              ? message.text.split('\n').map((line, idx) => (
-                  <React.Fragment key={idx}>
-                    {line}
-                    <br />
-                  </React.Fragment>
-                ))
-              : message.text}
-          </MessageBubble>
+          <MessageWrapper key={message.id} isUser={message.isUser}>
+            <ProfileImage 
+              src={message.isUser ? '/honi.jpeg' : '/bani.jpeg'} 
+              alt={message.isUser ? '호니' : '바니'} 
+            />
+            <MessageContent>
+              <ProfileName isUser={message.isUser}>{message.isUser ? '호니' : '바니'}</ProfileName>
+              <MessageBubble isUser={message.isUser}>
+                {typeof message.text === 'string'
+                  ? message.text.split('\n').map((line, idx) => (
+                      <React.Fragment key={idx}>
+                        {line}
+                        <br />
+                      </React.Fragment>
+                    ))
+                  : message.text}
+              </MessageBubble>
+            </MessageContent>
+          </MessageWrapper>
         ))}
         {isLoading && (
-          <LoadingBubble>
-            <LoadingDots>
-              <Dot />
-              <Dot />
-              <Dot />
-            </LoadingDots>
-          </LoadingBubble>
+          <MessageWrapper isUser={false}>
+            <ProfileImage src="/bani.jpeg" alt="바니" />
+            <MessageContent>
+              <ProfileName isUser={false}>바니</ProfileName>
+              <LoadingBubble>
+                <LoadingDots>
+                  <Dot />
+                  <Dot />
+                  <Dot />
+                </LoadingDots>
+              </LoadingBubble>
+            </MessageContent>
+          </MessageWrapper>
         )}
         <div ref={messagesEndRef} />
       </MessagesContainer>

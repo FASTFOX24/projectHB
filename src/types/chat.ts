@@ -6,4 +6,5 @@ export interface Message {
 
 export interface StyledProps {
   isUser: boolean;
+  children?: React.ReactNode;
 } 

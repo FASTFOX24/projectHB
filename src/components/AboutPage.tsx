@@ -15,7 +15,11 @@ import {
   AboutButtonGroup,
   ResponseImage,
   ModalOverlay,
-  ModalImage
+  ModalImage,
+  MessageWrapper,
+  ProfileImage,
+  MessageContent,
+  ProfileName,
 } from '../styles/ChatStyles';
 
 interface Message {
@@ -114,7 +118,7 @@ const GUIDE_DETAIL_BUTTONS = ['건축', '토목,조경', '설비,소방', 'TBM(�
 const GUIDE_DETAIL_TEXT = `매번 업데이트 되는 시공지침의 가장 최신 버전을 손쉽게 검색하고 찾아볼 수 있는 기능입니다. 챗봇형식으로 궁금한 시공지침에 대해 물어보고 HOBANAI가 가장 최신 버전의 지침을 알려주는 기능으로 복잡한 문서 탐색 없이 신속하게 필요한 정보를 제공받을 수 있습니다. 이를 통해 업무효율성과 정확성을 획기적으로 향상시킬 수 있습니다.\n
 (예시를 보고 싶으면 아래 버튼을 클릭하시오)`;
 
-const AboutPage: React.FC = () => {
+export const AboutPage: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: Date.now(),
@@ -135,456 +139,6 @@ const AboutPage: React.FC = () => {
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [modalImage, setModalImage] = useState<string | null>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const handleImageClick = (src: string) => {
-    setModalImage(src);
-  };
-
-  const handleCloseModal = () => {
-    setModalImage(null);
-  };
-
-  const handleButtonClick = (buttonText: string) => {
-    const userMessage: Message = {
-      id: Date.now(),
-      text: buttonText,
-      isUser: true,
-    };
-
-    let botResponse: Message;
-    
-    if (buttonText === '질문 시작하기') {
-      botResponse = {
-        id: Date.now() + 1,
-        type : 'welcomeMessage',
-        text: (
-          <>
-          {WELCOME_MESSAGE.split('\n').map((line, idx) => (
-              <React.Fragment key={idx}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
-            <AboutButtonGroup>
-              {MAIN_BUTTONS.map((text, idx) => (
-                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
-                  {text}
-                </AboutButton>
-              ))}
-            </AboutButtonGroup>
-          </>
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '호반그룹 알아보기') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            {HOBAN_GROUP_RESPONSE}
-            <AboutButtonGroup>
-              {HOBAN_GROUP_BUTTONS.map((text, idx) => (
-                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
-                  {text}
-                </AboutButton>
-              ))}
-            </AboutButtonGroup>
-          </>
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '시세정보 알아보기') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            시세정보에 대해 어떤 것을 알고 싶으신가요?
-            <AboutButtonGroup>
-              {MARKET_INFO_BUTTONS.map((text, idx) => (
-                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
-                  {text}
-                </AboutButton>
-              ))}
-            </AboutButtonGroup>
-          </>
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '환율') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            <ResponseImage
-              src="/exchangeRate.png"
-              alt="환율 현황"
-              style={{ maxWidth: '100%', marginBottom: '12px' }}
-              onClick={() => handleImageClick('/exchangeRate.png')}
-            />
-            {EXCHANGE_RATE_TEXT.split('\n').map((line, idx) => (
-              <React.Fragment key={idx}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
-          </>
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '자재시세') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            <ResponseImage
-              src="/materialPrice.png"
-              alt="자재시세 현황"
-              style={{ maxWidth: '100%', marginBottom: '12px' }}
-              onClick={() => handleImageClick('/materialPrice.png')}
-            />
-            {MATERIAL_PRICE_TEXT.split('\n').map((line, idx) => (
-              <React.Fragment key={idx}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
-          </>
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '호반의 역사') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: HOBAN_HISTORY,
-        isUser: false,
-      };
-    } else if (buttonText === '경영특징과 사회공헌') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: HOBAN_MANAGEMENT,
-        isUser: false,
-      };
-    } else if (buttonText === '계열사') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: HOBAN_SUBSIDIARIES,
-        isUser: false,
-      };
-    } else if (buttonText === '호반그룹 캐릭터') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            <div style={{ marginBottom: '12px' }}>
-              귀염둥이 주니어 멘티 호니 & 든든한 시니어 멘토 바니!
-              <br /><br />
-              호반그룹이 소중히 생각하는 "함께 소통하며 성장하는 문화"를 강조하고 "친근하면서 밝은 그룹의 이미지"를 전달합니다.
-            </div>
-            <div style={{ 
-              display: 'flex', 
-              gap: '8px', 
-              marginTop: '10px',
-              flexWrap: 'wrap',
-              justifyContent: 'flex-start'
-            }}>
-              <ResponseImage 
-                src="/character_1.png" 
-                alt="호반 캐릭터 1" 
-                style={{ maxWidth: 'calc(33.33% - 6px)' }}
-                onClick={() => handleImageClick('/character_1.png')}
-              />
-              <ResponseImage 
-                src="/character_2.png" 
-                alt="호반 캐릭터 2" 
-                style={{ maxWidth: 'calc(33.33% - 6px)' }}
-                onClick={() => handleImageClick('/character_2.png')}
-              />
-              <ResponseImage 
-                src="/character_3.png" 
-                alt="호반 캐릭터 3" 
-                style={{ maxWidth: 'calc(33.33% - 6px)' }}
-                onClick={() => handleImageClick('/character_3.png')}
-              />
-            </div>
-          </>
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '발표 외 AI 활용 아이디어 알아보기') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            발표 외 AI 활용 아이디어에 대해 어떤 것을 알고 싶으신가요?
-            <AboutButtonGroup>
-              {AI_IDEA_BUTTONS.map((text, idx) => (
-                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
-                  {text}
-                </AboutButton>
-              ))}
-            </AboutButtonGroup>
-          </>
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '건축') {
-      const userMsg1 = {
-        id: Date.now(),
-        text: '균열 유도줄룬 커팅 시공기준을 알려줘',
-        isUser: true,
-      };
-      const botMsg1 = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            균열 유도줄눈 커팅 시공기준은 다음과 같습니다.<br />
-            - 시공부위 : 지하주차장, 옥상바닥의 누름 콘크리트 타설부위.<br />
-            - 시공시점 : 누름콘크리트 타설 후 3~5일 전후로 건조수축이 발생하기 전.<br />
-            - 시공간격 : 지하주차장 기둥 중심선 간격이 6m이하일 떄 1줄, 6m초과할 때 2줄<br /><br />
-            시공규격<br />
-            -  주차장 최하층: 3 X 20 (폭 3mm, 깊이 20mm, Slab 두께의 1/5 이상 절단)<br />
-            -  주차장 중    층: 6 X 40 (폭 6mm, 깊이 40mm, Slab 두께의 1/4 이상 절단)<br />
-            -  아파트 옥    상: 4 X 40 (폭 4mm, 깊이 40mm, Slab 두께의 1/4 이상 절단)<br /><br />
-            자세한 사항은 아래 호반건설 사내 건축기술지침[HGE-H5-002]를 참고해주시기 바랍니다.<br /><br />
-            <ResponseImage src="/guidebook_2.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_2.png')} />
-          </>
-        ),
-        isUser: false,
-      };
-      const userMsg2 = {
-        id: Date.now() + 2,
-        text: '조적공종을 다음주 월요일에 들어오는데 내가 알아두고 확인할 사항들을 정리해줘',
-        isUser: true,
-      };
-      const botMsg2 = {
-        id: Date.now() + 3,
-        text: (
-          <>
-            다음과 같은 사항을 확인해야 합니다.<br />
-            1. 선행공종 작업확인<br /><br />
-            · 문틀시공 및 바닥 먹매김 상태를 확인한다.<br />
-            · 설비배관, 전선관, 기타 매입물 등의 시공상태를 확인<br />
-            · AD/PD 내부면의 Flat Tie 등의 제거 여부 및 바닥 개구부 Open 상태를 확인한다.<br />
-            · 설비배관류 보온재 시공 유무, 외벽 단열재 적정시공 여부를 확인한다.<br /><br />
-            2. 자재운반 및 앵커철물 설치<br />
-            · 동별, 세대별 투입 예상물량 확인후 운반하고, 잔여자재는 즉시 반출 또는 상부층으로 운반하여 사용한다.<br />
-            · 앵커철물 설치기준(층고 2,830 ㎜ 기준)<br />
-            ① 바닥먹 위치 확인후 수직먹을 정밀 시공한다.<br />
-            ② 욕 실 : 4 단째를 시작으로 5 단(@330 ㎜)마다 총 7 개 시공<br />
-            ③ 욕실 외 : 4 단째를 시작으로 9 단(@600 ㎜)마다 총 4 개 시공<br /><br />
-            자세한 사항은 아래 건축기술지침 [HGE-H5-002]을 참고해주시기 바랍니다.<br /><br />
-            <ResponseImage src="/guidebook_3.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_3.png')} />
-          </>
-        ),
-        isUser: false,
-      };
-      setMessages(prev => [...prev, userMsg1, botMsg1, userMsg2, botMsg2]);
-      return;
-    } else if (buttonText === '토목,조경') {
-      const userMsg = {
-        id: Date.now(),
-        text: '흙막이 공사에 대해 설명해줘',
-        isUser: true,
-      };
-      const botMsg = {
-        id: Date.now() + 1,
-        text: (
-          <>
-          토목,조경 A. 흙막이 공법의 결정 및 설계와 계산은 설계도서, 지반조사보고서의 결과와 지중 매설물, 장애물의 조사서 및 주변 여건을 고려하여 지반공학 전문가의 자문을 받아 결정한다.<br />
-            2. 현장조건이 변화되어 흙막이 공법 또는 설계를 변경할 필요가 발생했을 경우 설계사와 협의 후, 적법한 절차를 통해서 변경승인 후 시행한다.<br />
-            3. 터파기 착수 전에 흙막이 계획서를 감리단에 제출 후 승인을 받아야 한다.<br />
-            4. 흙막이 설치 및 존치기간 중에는 안정상 필요한 계측과 점검을 하고 이상이 발견되었을 때에는 신속히 보강하거나 기타 필요한 조치를 한다.<br /><br />
-            흙막이 공사 용어는 다음과 같습니다.<br />
-            - 긴장: 앵커의 인장재에 인장력을 주는 것<br />
-            - 긴장력: 어스앵커 설치 후 흙막이 구조물의 수평변위를 제어하기 위하여 앵커 머리와 앵커체 사이에 프리스트레스 하는 힘<br />
-            - 띠장: 흙막이 벽체가 받는 측압을 버팀재, 귀잡이 등에 전달하는 수평지지대<br />
-            - 보일링: 사질 지반일 경우 지반 저부에서 상부를 향하여 흐르는 물의 압력이 모래의 자중 이상으로 되면 모래 입자가 심하게 교란되는 현상<br />
-            - 상대다짐: 실내다짐 시험에 의한 최대건조단위중량과 현장단위 중량의 비<br />
-            - 소단: 사면의 안정성을 높이기 위하여 사면의 중간에 설치된 수평부분<br />
-            - 슬라임: 굴착토사 중에서 지상으로 배출되지 않고 굴착저면 부근에 남아 있다가 굴착 중지와 동시에 곧바로 침전된 것과 순환수 혹은 공내수 중에 떠 있던 미립자가 시간이 경과함에 따라 서서히 굴착저면 부근에 침전한 것<br />
-            - 앵커두부: 구조물로부터 작용한 힘을 인장부에 무리없이 전달하기 위한 부분<br />
-            - 앵커의 인발력: 어스앵커에 있어 가해진 인장력에 대하여 앵커체 부분의 지반의 인발력<br />
-            - 앵커체: 인장재의 인장력을 지반에 전달하기 위하여 설치되는 지반 중의 저항 부분<br />
-            - 앵커판: 타이로드에서 전달되는 인장력을 동토압으로 지지할 수 있도록 지중에 설치하는 지압판 또는 정착부재<br />
-            - 엄지말뚝: 땅파기를 실시할 경계면에 1~2M 간격으로 수직으로 설치되는 H형강 말뚝<br /><br />
-            추가 사항은 아래 호반건설 사내 건축시공지침 [HGE-H5-001]을 참고해주시기 바랍니다.<br /><br />
-            <ResponseImage src="/guidebook.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook.png')} />
-          </>
-        ),
-        isUser: false,
-      };
-      setMessages(prev => [...prev, userMsg, botMsg]);
-      return;
-    } else if (buttonText === '설비,소방') {
-      const userMsg = {
-        id: Date.now(),
-        text: '저수조 설치기준 설명해줘',
-        isUser: true,
-      };
-      const botMsg = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            저수조의 설치기준은 다음과 같습니다.<br /><br />
-            · 상부 점검구 : 마감에서 1,000mm 이상<br />
-            · 탱크 상부, 측면 : 마감에서 600mm 이상<br />
-            · 하부 순수패드 : 마감에서 600mm 이상<br /><br />
-            자세한 사항은 아래 호반건설 사내 시공표준화를 참고해주시기 바랍니다.<br /><br />
-            <ResponseImage src="/guidebook_1.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_1.png')} />
-          </>
-        ),
-        isUser: false,
-      };
-      setMessages(prev => [...prev, userMsg, botMsg]);
-      return;
-    } else if (buttonText === 'TBM(기계)') {
-      const userMsg = {
-        id: Date.now(),
-        text: 'TBM 및 터널 내 운반, 보급, 취급 지침에 대해 설명해줘',
-        isUser: true,
-      };
-      const botMsg = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            터널 내 운반 지침은 다음과 같습니다.<br /><br />
-            1. 버력처리 계획 수립 시에는 터널크기, 연장, 경사, 버력량, 버력상태, 사용장비의 특성, 주변여건, 공정 등을 고려하여야 한다.<br /><br />
-            2. 운반체계 수립 시에는 버력운반이 굴착공정에 지장을 주지 않도록 하여야 한다.<br /><br />
-            3. 터널 내 운반장비의 안전운행을 위해서는 운행규정을 수립하고 운전원 및 작업원들에게 안전 운행에 관한 교육을 실시하여야 한다.<br /><br />
-            TBM 운반에 대해서 설명드리겠습니다.<br /><br />
-            1. 현장까지 TBM이 원활히 운반될 수 있도록 장비분할과 운반로를 선정하여야 한다. 또한 운반 도중에 지상 및 지하구조물에 손상이 발생하지 않도록 현황을 파악하고 대책을 수립하여야 한다.<br /><br />
-            2. 제작사로부터 현장에 공급될 때까지 외부의 충격 등에 손상되지 않도록 TBM이 보호된 상태로 공급하여야 한다.<br /><br />
-            재료보관소 및 창고에 대해서 설명드리겠습니다.<br /><br />
-            1. 재료보관소 및 창고는 공정에 지장이 없도록 세그먼트 및 부속재료, 가설재료, 시공용 기계 및 기구 등을 저장할 수 있는 공간을 확보하여야 한다.<br /><br />
-            2. 선행공종 작업확인<br />
-            · 문틀시공 및 바닥 먹매김 상태를 확인한다.<br />
-            · 설비배관, 전선관, 기타 매입물 등의 시공상태를 확인<br />
-            · AD/PD 내부면의 Flat Tie 등의 제거 여부 및 바닥 개구부 Open 상태를 확인한다.<br />
-            · 설비배관류 보온재 시공 유무, 외벽 단열재 적정시공 여부를 확인한다.<br /><br />
-            3. 자재운반 및 앵커철물 설치<br />
-            · 동별, 세대별 투입 예상물량 확인후 운반하고, 잔여자재는 즉시 반출 또는 상부층으로 운반하여 사용한다.<br />
-            · 앵커철물 설치기준(층고 2,830 ㎜ 기준)<br />
-            ① 바닥먹 위치 확인후 수직먹을 정밀 시공한다.<br />
-            ② 욕 실 : 4 단째를 시작으로 5 단(@330 ㎜)마다 총 7 개 시공<br />
-            ③ 욕실 외 : 4 단째를 시작으로 9 단(@600 ㎜)마다 총 4 개 시공<br /><br />
-            자세한 사항은 아래 건축기술지침 [HGE-H5-002]을 참고해주시기 바랍니다.<br /><br />
-            <ResponseImage src="/guidebook_4.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_4.png')} />
-          </>
-        ),
-        isUser: false,
-      };
-      setMessages(prev => [...prev, userMsg, botMsg]);
-      return;
-    } else if (buttonText === '공사일보 자동 작성') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            자동출입기록대장과 연동하여 공사일보를 자동으로 작성하는 기능입니다. 현장 출입 기록 데이터를 비롯한 다양한 현장 정보를 실시간으로 수집하고, 이를 바탕으로 공사일보(작업일보)를 자동으로 작성합니다. 주요 기능으로는 다음과 같습니다.<br /><br />
-            1. 협력업체가 링크를 통해 작업일보를 작성하면 자동으로 공사일보에 반영<br /><br />
-            2. 안면인식 카메라를 통한 현장 출력 인원 자동 업데이트<br /><br />
-            3. 날짜, 공정률, 공사진행상황, 날씨 데이터등을 자동 업데이트<br /><br />
-            AI가 공사일보를 자동으로 작성해주면 이후 담당자가 검토 확인을 거치는 방식으로 '작성 시간과 인력 부담이 줄어들고, 인원, 날씨, 협력업체 작업 등 주요 정보의 누락과 오류가 최소화되며, 현장 상황을 신속하게 파악'할  수 있습니다. 또한 작업일보 및 출입기록대장 데이터와 협력업체가 요구하는 기성의 데이터값이(시공량 및 출력인원) 차이가 크다면 '검토를 바란다'고 담당자에게 알림을 줄 수 있습니다. 이를 통해 업무 효율성과 생산성이 크게 향상됩니다.
-          </>
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '도면 비교 분석') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            CAD 도면을 넣거나 공유폴더에 연결된 도면이름을 제시하면 두 도면을 비교, 분석하여 상이한 내용 및 간섭사항을 찾아내는 AI프로그램입니다. 다양한 도면 정보를 AI가 자동으로 인식하고, 두 도면간의 차이점과 충돌을 신속하게 도출합니다.<br /><br />
-            다음 예시와 같은 방식으로 진행됩니다.<br /><br />
-            1. 공요폴더에 연결 되어있는 1901동 지하주차장 건축 평면도와 1901동 지하주차장 구조 평면도등 서로 다른 도면을 비교, 분석합니다.<br /><br />
-            2. 두 도면의 휀룸 벽 등 일부 구조물의 상이한 점을 자동 탐지합니다.<br /><br />
-            3. 발견된 차이점을 사용자에게 명확하게 제시합니다.<br /><br />
-            4. 시공지침, 시방서 등 관련 기준을 바탕으로 해결책까지 AI가 제안합니다.<br /><br />
-            AI의 도면 비교· 분석 자동화로 인해 도면 검토 시간이 줄어들고, 주요 정보의 누락과 오류가 최소화되며, 설계 및 시공단계에서의 업무효율성과 정확성이 크게 향상됩니다.
-          </>
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '오늘의 식단 알아보기') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <ResponseImage
-            src="/menu.png"
-            alt="금주의 식단"
-            style={{ maxWidth: '100%', marginTop: '12px' }}
-            onClick={() => handleImageClick('/menu.png')}
-          />
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '플랜P 프로젝트 알아보기') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            미션 코치 : 김관식 부장님<br /><br />
-            조원 : 황하람, 김용현, 정현우, 정명훈, 박성현<br /><br />
-            <span style={{fontWeight:"bold",color:"#f07a03"}}>김관식 </span>: Plan P의 미션코치<br />본사에서 건축직으로 근무중<br /><br />
-            <span style={{fontWeight:"bold",color:"#f07a03"}}>황하람</span>: Plan P의 조장<br />동북선 도시철도에서 토목직으로 근무 중.<br /><br />
-            <span style={{fontWeight:"bold",color:"#f07a03"}}>김용현</span>: Plan P의 조원<br />천안 일봉공원 2BL에서 건축직으로 근무 중.<br /><br />
-            <span style={{fontWeight:"bold",color:"#f07a03"}}>정명훈</span>: Plan P의 조원<br />오산세교2 A13BL에서 설비직으로 근무 중.<br /><br />
-            <span style={{fontWeight:"bold",color:"#f07a03"}}>정현우</span>: Plan P의 조원<br />춘천-속초 1공구에서 TBM 기계직으로 근무 중<br /><br />
-            <span style={{fontWeight:"bold",color:"#f07a03"}}>박상현</span>: Plan P의 조원<br />오산세교2 A13BL에서 건축직으로 근무 중.<br />
-          </>
-        ),
-        isUser: false,
-      };
-    } else if (buttonText === '시공지침') {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-            {GUIDE_DETAIL_TEXT.split('\n').map((line, idx) => (
-              <React.Fragment key={idx}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
-            <AboutButtonGroup>
-              {GUIDE_DETAIL_BUTTONS.map((text, idx) => (
-                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
-                  {text}
-                </AboutButton>
-              ))}
-            </AboutButtonGroup>
-          </>
-        ),
-        isUser: false,
-      };
-    } else {
-      botResponse = {
-        id: Date.now() + 1,
-        text: (
-          <>
-           
-            <AboutButtonGroup>
-              {ACTION_BUTTONS.map((text, idx) => (
-                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
-                  {text}
-                </AboutButton>
-              ))}
-            </AboutButtonGroup>
-          </>
-        ),
-        isUser: false,
-      };
-    }
-    setMessages(prev => [...prev, userMessage, botResponse]);
-  };
 
   const handleRestart = () => {
     setMessages(prev => [
@@ -614,6 +168,326 @@ const AboutPage: React.FC = () => {
     ]);
   };
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const handleImageClick = (src: string) => {
+    setModalImage(src);
+  };
+
+  const handleCloseModal = () => {
+    setModalImage(null);
+  };
+
+  const handleButtonClick = (text: string) => {
+    const userMessage: Message = {
+      id: Date.now(),
+      text,
+      isUser: true,
+    };
+
+    const botResponse: Message = {
+      id: Date.now() + 1,
+      text: getResponse(text),
+      isUser: false,
+    };
+
+    setMessages(prev => [...prev, userMessage, botResponse]);
+  };
+
+  const getResponse = (text: string): React.ReactNode => {
+    if (text === '질문 시작하기') {
+      return (
+        <>
+          {WELCOME_MESSAGE.split('\n').map((line, idx) => (
+            <React.Fragment key={idx}>
+              {line}
+              <br />
+            </React.Fragment>
+          ))}
+          <AboutButtonGroup>
+            {MAIN_BUTTONS.map((text, idx) => (
+              <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                {text}
+              </AboutButton>
+            ))}
+          </AboutButtonGroup>
+        </>
+      );
+    } else if (text === '호반그룹 알아보기') {
+      return (
+        <>
+          {HOBAN_GROUP_RESPONSE}
+          <AboutButtonGroup>
+            {HOBAN_GROUP_BUTTONS.map((text, idx) => (
+              <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                {text}
+              </AboutButton>
+            ))}
+          </AboutButtonGroup>
+        </>
+      );
+    } else if (text === '시세정보 알아보기') {
+      return (
+        <>
+          시세정보에 대해 어떤 것을 알고 싶으신가요?
+          <AboutButtonGroup>
+            {MARKET_INFO_BUTTONS.map((text, idx) => (
+              <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                {text}
+              </AboutButton>
+            ))}
+          </AboutButtonGroup>
+        </>
+      );
+    } else if (text === '환율') {
+      return (
+        <>
+          <ResponseImage
+            src="/exchangeRate.png"
+            alt="환율 현황"
+            style={{ maxWidth: '100%', marginBottom: '12px' }}
+            onClick={() => handleImageClick('/exchangeRate.png')}
+          />
+          {EXCHANGE_RATE_TEXT.split('\n').map((line, idx) => (
+            <React.Fragment key={idx}>
+              {line}
+              <br />
+            </React.Fragment>
+          ))}
+        </>
+      );
+    } else if (text === '자재시세') {
+      return (
+        <>
+          <ResponseImage
+            src="/materialPrice.png"
+            alt="자재시세 현황"
+            style={{ maxWidth: '100%', marginBottom: '12px' }}
+            onClick={() => handleImageClick('/materialPrice.png')}
+          />
+          {MATERIAL_PRICE_TEXT.split('\n').map((line, idx) => (
+            <React.Fragment key={idx}>
+              {line}
+              <br />
+            </React.Fragment>
+          ))}
+        </>
+      );
+    } else if (text === '호반의 역사') {
+      return HOBAN_HISTORY;
+    } else if (text === '경영특징과 사회공헌') {
+      return HOBAN_MANAGEMENT;
+    } else if (text === '계열사') {
+      return HOBAN_SUBSIDIARIES;
+    } else if (text === '호반그룹 캐릭터') {
+      return (
+        <>
+          <div style={{ marginBottom: '12px' }}>
+            귀염둥이 주니어 멘티 호니 & 든든한 시니어 멘토 바니!
+            <br /><br />
+            호반그룹이 소중히 생각하는 "함께 소통하며 성장하는 문화"를 강조하고 "친근하면서 밝은 그룹의 이미지"를 전달합니다.
+          </div>
+          <div style={{ 
+            display: 'flex', 
+            gap: '8px', 
+            marginTop: '10px',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start'
+          }}>
+            <ResponseImage 
+              src="/character_1.png" 
+              alt="호반 캐릭터 1" 
+              style={{ maxWidth: 'calc(33.33% - 6px)' }}
+              onClick={() => handleImageClick('/character_1.png')}
+            />
+            <ResponseImage 
+              src="/character_2.png" 
+              alt="호반 캐릭터 2" 
+              style={{ maxWidth: 'calc(33.33% - 6px)' }}
+              onClick={() => handleImageClick('/character_2.png')}
+            />
+            <ResponseImage 
+              src="/character_3.png" 
+              alt="호반 캐릭터 3" 
+              style={{ maxWidth: 'calc(33.33% - 6px)' }}
+              onClick={() => handleImageClick('/character_3.png')}
+            />
+          </div>
+        </>
+      );
+    } else if (text === '발표 외 AI 활용 아이디어 알아보기') {
+      return (
+        <>
+          발표 외 AI 활용 아이디어에 대해 어떤 것을 알고 싶으신가요?
+          <AboutButtonGroup>
+            {AI_IDEA_BUTTONS.map((text, idx) => (
+              <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                {text}
+              </AboutButton>
+            ))}
+          </AboutButtonGroup>
+        </>
+      );
+    } else if (text === '건축') {
+      return (
+        <>
+          균열 유도줄눈 커팅 시공기준은 다음과 같습니다.<br />
+          - 시공부위 : 지하주차장, 옥상바닥의 누름 콘크리트 타설부위.<br />
+          - 시공시점 : 누름콘크리트 타설 후 3~5일 전후로 건조수축이 발생하기 전.<br />
+          - 시공간격 : 지하주차장 기둥 중심선 간격이 6m이하일 떄 1줄, 6m초과할 때 2줄<br /><br />
+          시공규격<br />
+          -  주차장 최하층: 3 X 20 (폭 3mm, 깊이 20mm, Slab 두께의 1/5 이상 절단)<br />
+          -  주차장 중    층: 6 X 40 (폭 6mm, 깊이 40mm, Slab 두께의 1/4 이상 절단)<br />
+          -  아파트 옥    상: 4 X 40 (폭 4mm, 깊이 40mm, Slab 두께의 1/4 이상 절단)<br /><br />
+          자세한 사항은 아래 호반건설 사내 건축기술지침[HGE-H5-002]를 참고해주시기 바랍니다.<br /><br />
+          <ResponseImage src="/guidebook_2.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_2.png')} />
+        </>
+      );
+    } else if (text === '토목,조경') {
+      return (
+        <>
+          토목,조경 A. 흙막이 공법의 결정 및 설계와 계산은 설계도서, 지반조사보고서의 결과와 지중 매설물, 장애물의 조사서 및 주변 여건을 고려하여 지반공학 전문가의 자문을 받아 결정한다.<br />
+          2. 현장조건이 변화되어 흙막이 공법 또는 설계를 변경할 필요가 발생했을 경우 설계사와 협의 후, 적법한 절차를 통해서 변경승인 후 시행한다.<br />
+          3. 터파기 착수 전에 흙막이 계획서를 감리단에 제출 후 승인을 받아야 한다.<br />
+          4. 흙막이 설치 및 존치기간 중에는 안정상 필요한 계측과 점검을 하고 이상이 발견되었을 때에는 신속히 보강하거나 기타 필요한 조치를 한다.<br /><br />
+          흙막이 공사 용어는 다음과 같습니다.<br />
+          - 긴장: 앵커의 인장재에 인장력을 주는 것<br />
+          - 긴장력: 어스앵커 설치 후 흙막이 구조물의 수평변위를 제어하기 위하여 앵커 머리와 앵커체 사이에 프리스트레스 하는 힘<br />
+          - 띠장: 흙막이 벽체가 받는 측압을 버팀재, 귀잡이 등에 전달하는 수평지지대<br />
+          - 보일링: 사질 지반일 경우 지반 저부에서 상부를 향하여 흐르는 물의 압력이 모래의 자중 이상으로 되면 모래 입자가 심하게 교란되는 현상<br />
+          - 상대다짐: 실내다짐 시험에 의한 최대건조단위중량과 현장단위 중량의 비<br />
+          - 소단: 사면의 안정성을 높이기 위하여 사면의 중간에 설치된 수평부분<br />
+          - 슬라임: 굴착토사 중에서 지상으로 배출되지 않고 굴착저면 부근에 남아 있다가 굴착 중지와 동시에 곧바로 침전된 것과 순환수 혹은 공내수 중에 떠 있던 미립자가 시간이 경과함에 따라 서서히 굴착저면 부근에 침전한 것<br />
+          - 앵커두부: 구조물로부터 작용한 힘을 인장부에 무리없이 전달하기 위한 부분<br />
+          - 앵커의 인발력: 어스앵커에 있어 가해진 인장력에 대하여 앵커체 부분의 지반의 인발력<br />
+          - 앵커체: 인장재의 인장력을 지반에 전달하기 위하여 설치되는 지반 중의 저항 부분<br />
+          - 앵커판: 타이로드에서 전달되는 인장력을 동토압으로 지지할 수 있도록 지중에 설치하는 지압판 또는 정착부재<br />
+          - 엄지말뚝: 땅파기를 실시할 경계면에 1~2M 간격으로 수직으로 설치되는 H형강 말뚝<br /><br />
+          추가 사항은 아래 호반건설 사내 건축시공지침 [HGE-H5-001]을 참고해주시기 바랍니다.<br /><br />
+          <ResponseImage src="/guidebook.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook.png')} />
+        </>
+      );
+    } else if (text === '설비,소방') {
+      return (
+        <>
+          저수조의 설치기준은 다음과 같습니다.<br /><br />
+          · 상부 점검구 : 마감에서 1,000mm 이상<br />
+          · 탱크 상부, 측면 : 마감에서 600mm 이상<br />
+          · 하부 순수패드 : 마감에서 600mm 이상<br /><br />
+          자세한 사항은 아래 호반건설 사내 시공표준화를 참고해주시기 바랍니다.<br /><br />
+          <ResponseImage src="/guidebook_1.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_1.png')} />
+        </>
+      );
+    } else if (text === 'TBM(기계)') {
+      return (
+        <>
+          터널 내 운반 지침은 다음과 같습니다.<br /><br />
+          1. 버력처리 계획 수립 시에는 터널크기, 연장, 경사, 버력량, 버력상태, 사용장비의 특성, 주변여건, 공정 등을 고려하여야 한다.<br /><br />
+          2. 운반체계 수립 시에는 버력운반이 굴착공정에 지장을 주지 않도록 하여야 한다.<br /><br />
+          3. 터널 내 운반장비의 안전운행을 위해서는 운행규정을 수립하고 운전원 및 작업원들에게 안전 운행에 관한 교육을 실시하여야 한다.<br /><br />
+          TBM 운반에 대해서 설명드리겠습니다.<br /><br />
+          1. 현장까지 TBM이 원활히 운반될 수 있도록 장비분할과 운반로를 선정하여야 한다. 또한 운반 도중에 지상 및 지하구조물에 손상이 발생하지 않도록 현황을 파악하고 대책을 수립하여야 한다.<br /><br />
+          2. 제작사로부터 현장에 공급될 때까지 외부의 충격 등에 손상되지 않도록 TBM이 보호된 상태로 공급하여야 한다.<br /><br />
+          재료보관소 및 창고에 대해서 설명드리겠습니다.<br /><br />
+          1. 재료보관소 및 창고는 공정에 지장이 없도록 세그먼트 및 부속재료, 가설재료, 시공용 기계 및 기구 등을 저장할 수 있는 공간을 확보하여야 한다.<br /><br />
+          2. 선행공종 작업확인<br />
+          · 문틀시공 및 바닥 먹매김 상태를 확인한다.<br />
+          · 설비배관, 전선관, 기타 매입물 등의 시공상태를 확인<br />
+          · AD/PD 내부면의 Flat Tie 등의 제거 여부 및 바닥 개구부 Open 상태를 확인한다.<br />
+          · 설비배관류 보온재 시공 유무, 외벽 단열재 적정시공 여부를 확인한다.<br /><br />
+          3. 자재운반 및 앵커철물 설치<br />
+          · 동별, 세대별 투입 예상물량 확인후 운반하고, 잔여자재는 즉시 반출 또는 상부층으로 운반하여 사용한다.<br />
+          · 앵커철물 설치기준(층고 2,830 ㎜ 기준)<br />
+          ① 바닥먹 위치 확인후 수직먹을 정밀 시공한다.<br />
+          ② 욕 실 : 4 단째를 시작으로 5 단(@330 ㎜)마다 총 7 개 시공<br />
+          ③ 욕실 외 : 4 단째를 시작으로 9 단(@600 ㎜)마다 총 4 개 시공<br /><br />
+          자세한 사항은 아래 건축기술지침 [HGE-H5-002]을 참고해주시기 바랍니다.<br /><br />
+          <ResponseImage src="/guidebook_4.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_4.png')} />
+        </>
+      );
+    } else if (text === '공사일보 자동 작성') {
+      return (
+        <>
+          자동출입기록대장과 연동하여 공사일보를 자동으로 작성하는 기능입니다. 현장 출입 기록 데이터를 비롯한 다양한 현장 정보를 실시간으로 수집하고, 이를 바탕으로 공사일보(작업일보)를 자동으로 작성합니다. 주요 기능으로는 다음과 같습니다.<br /><br />
+          1. 협력업체가 링크를 통해 작업일보를 작성하면 자동으로 공사일보에 반영<br /><br />
+          2. 안면인식 카메라를 통한 현장 출력 인원 자동 업데이트<br /><br />
+          3. 날짜, 공정률, 공사진행상황, 날씨 데이터등을 자동 업데이트<br /><br />
+          AI가 공사일보를 자동으로 작성해주면 이후 담당자가 검토 확인을 거치는 방식으로 '작성 시간과 인력 부담이 줄어들고, 인원, 날씨, 협력업체 작업 등 주요 정보의 누락과 오류가 최소화되며, 현장 상황을 신속하게 파악'할  수 있습니다. 또한 작업일보 및 출입기록대장 데이터와 협력업체가 요구하는 기성의 데이터값이(시공량 및 출력인원) 차이가 크다면 '검토를 바란다'고 담당자에게 알림을 줄 수 있습니다. 이를 통해 업무 효율성과 생산성이 크게 향상됩니다.
+        </>
+      );
+    } else if (text === '도면 비교 분석') {
+      return (
+        <>
+          CAD 도면을 넣거나 공유폴더에 연결된 도면이름을 제시하면 두 도면을 비교, 분석하여 상이한 내용 및 간섭사항을 찾아내는 AI프로그램입니다. 다양한 도면 정보를 AI가 자동으로 인식하고, 두 도면간의 차이점과 충돌을 신속하게 도출합니다.<br /><br />
+          다음 예시와 같은 방식으로 진행됩니다.<br /><br />
+          1. 공요폴더에 연결 되어있는 1901동 지하주차장 건축 평면도와 1901동 지하주차장 구조 평면도등 서로 다른 도면을 비교, 분석합니다.<br /><br />
+          2. 두 도면의 휀룸 벽 등 일부 구조물의 상이한 점을 자동 탐지합니다.<br /><br />
+          3. 발견된 차이점을 사용자에게 명확하게 제시합니다.<br /><br />
+          4. 시공지침, 시방서 등 관련 기준을 바탕으로 해결책까지 AI가 제안합니다.<br /><br />
+          AI의 도면 비교· 분석 자동화로 인해 도면 검토 시간이 줄어들고, 주요 정보의 누락과 오류가 최소화되며, 설계 및 시공단계에서의 업무효율성과 정확성이 크게 향상됩니다.
+        </>
+      );
+    } else if (text === '오늘의 식단 알아보기') {
+      return (
+        <ResponseImage
+          src="/menu.png"
+          alt="금주의 식단"
+          style={{ maxWidth: '100%', marginTop: '12px' }}
+          onClick={() => handleImageClick('/menu.png')}
+        />
+      );
+    } else if (text === '플랜P 프로젝트 알아보기') {
+      return (
+        <>
+          미션 코치 : 김관식 부장님<br /><br />
+          조원 : 황하람, 김용현, 정현우, 정명훈, 박성현<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>김관식 </span>: Plan P의 미션코치<br />본사에서 건축직으로 근무중<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>황하람</span>: Plan P의 조장<br />동북선 도시철도에서 토목직으로 근무 중.<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>김용현</span>: Plan P의 조원<br />천안 일봉공원 2BL에서 건축직으로 근무 중.<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>정명훈</span>: Plan P의 조원<br />오산세교2 A13BL에서 설비직으로 근무 중.<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>정현우</span>: Plan P의 조원<br />춘천-속초 1공구에서 TBM 기계직으로 근무 중<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>박상현</span>: Plan P의 조원<br />오산세교2 A13BL에서 건축직으로 근무 중.<br />
+        </>
+      );
+    } else if (text === '시공지침') {
+      return (
+        <>
+          {GUIDE_DETAIL_TEXT.split('\n').map((line, idx) => (
+            <React.Fragment key={idx}>
+              {line}
+              <br />
+            </React.Fragment>
+          ))}
+          <AboutButtonGroup>
+            {GUIDE_DETAIL_BUTTONS.map((text, idx) => (
+              <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                {text}
+              </AboutButton>
+            ))}
+          </AboutButtonGroup>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <AboutButtonGroup>
+            {ACTION_BUTTONS.map((text, idx) => (
+              <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                {text}
+              </AboutButton>
+            ))}
+          </AboutButtonGroup>
+        </>
+      );
+    }
+  };
+
   return (
     <ChatContainer>
       <Header>
@@ -636,21 +510,30 @@ const AboutPage: React.FC = () => {
       </Header>
       <MessagesContainer>
         {messages.map((message, idx) => (
-          <MessageBubble key={message.id} isUser={message.isUser}>
-              {typeof message.text === 'string'
-                ? message.text.split('\n').map((line, idx) => (
-                    <React.Fragment key={idx}>
-                      {line}
-                      <br />
-                    </React.Fragment>
-                  ))
-                : message.text}
-              {!message.isUser && idx === messages.length - 1 && messages.length > 1 && message.type !== "welcomeMessage" && (
-                <AboutButtonGroup style={{ marginTop: '14px' }}>
-                  <AboutButton onClick={handleRestart}>다른 질문 시작하기</AboutButton>
-                </AboutButtonGroup>
-              )}
-          </MessageBubble>
+          <MessageWrapper key={message.id} isUser={message.isUser}>
+            <ProfileImage 
+              src={message.isUser ? '/honi.jpeg' : '/bani.jpeg'} 
+              alt={message.isUser ? '호니' : '바니'} 
+            />
+            <MessageContent>
+              <ProfileName isUser={message.isUser}>{message.isUser ? '호니' : '바니'}</ProfileName>
+              <MessageBubble isUser={message.isUser}>
+                {typeof message.text === 'string'
+                  ? message.text.split('\n').map((line, idx) => (
+                      <React.Fragment key={idx}>
+                        {line}
+                        <br />
+                      </React.Fragment>
+                    ))
+                  : message.text}
+                {!message.isUser && idx === messages.length - 1 && messages.length > 1 && message.type !== "welcomeMessage" && (
+                  <AboutButtonGroup style={{ marginTop: '14px' }}>
+                    <AboutButton onClick={handleRestart}>다른 질문 시작하기</AboutButton>
+                  </AboutButtonGroup>
+                )}
+              </MessageBubble>
+            </MessageContent>
+          </MessageWrapper>
         ))}
         <div ref={messagesEndRef} />
       </MessagesContainer>

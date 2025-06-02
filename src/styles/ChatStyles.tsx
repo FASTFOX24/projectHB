@@ -191,10 +191,37 @@ export const MessagesContainer = styled.div`
   }
 `;
 
+export const MessageWrapper = styled.div<StyledProps>`
+  display: flex;
+  flex-direction: ${(props: StyledProps) => props.isUser ? 'row-reverse' : 'row'};
+  align-items: flex-start;
+  gap: 12px;
+`;
+
+export const ProfileImage = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+`;
+
+export const MessageContent = styled.div`
+width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+export const ProfileName = styled.span<StyledProps>`
+  font-size: 13px;
+  color: #666;
+  margin-left: ${(props: StyledProps) => props.isUser ? 'auto' : '0px'};
+  margin-right: ${(props: StyledProps) => props.isUser ? '0px' : 'auto'};
+`;
+
 export const MessageBubble = styled.div<StyledProps>`
   max-width: 70%;
   padding: 12px 16px;
-  margin: 4px 0;
   border-radius: 18px;
   color: ${(props: StyledProps) => props.isUser ? '#ffffff' : '#222222'};
   align-self: ${(props: StyledProps) => props.isUser ? 'flex-end' : 'flex-start'};
@@ -203,7 +230,7 @@ export const MessageBubble = styled.div<StyledProps>`
   line-height: 1.5;
   position: relative;
   backdrop-filter: blur(8px);
-  background-color: ${(props: StyledProps) => props.isUser ? 'rgba(240, 122, 3, 0.95)' : 'rgba(255, 255, 255, 0.95)'};
+  background-color: ${(props: StyledProps) => props.isUser ? '#f07a03' : 'rgba(255, 255, 255, 0.95)'};
 
   @media (max-width: ${breakpoints.mobile}) {
     max-width: 85%;
@@ -212,23 +239,23 @@ export const MessageBubble = styled.div<StyledProps>`
   }
 
   ${(props: StyledProps) => props.isUser ? `
-    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
   ` : `
-    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
   `}
 
   &::before {
     content: '';
     position: absolute;
-    bottom: 0;
+    top: 0;
     width: 12px;
     height: 12px;
     background-color: ${(props: StyledProps) => props.isUser ? '#f07a03' : '#ffffff'};
     ${(props: StyledProps) => props.isUser ? 'right: -6px;' : 'left: -6px;'}
     clip-path: ${(props: StyledProps) => 
       props.isUser 
-        ? 'polygon(0 0, 0% 100%, 100% 100%)'
-        : 'polygon(0 100%, 100% 100%, 100% 0)'
+      ?'polygon(0 0, 0% 100%, 100% 0)':
+       'polygon(0 0, 100% 0, 100% 100%)'
     };
 
     @media (max-width: ${breakpoints.mobile}) {
@@ -335,7 +362,7 @@ export const LoadingBubble = styled.div`
   background-color: #ffffff;
   align-self: flex-start;
   position: relative;
-  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -346,12 +373,12 @@ export const LoadingBubble = styled.div`
   &::before {
     content: '';
     position: absolute;
-    bottom: 0;
+    top: 0;
     width: 12px;
     height: 12px;
     background-color: #ffffff;
     left: -6px;
-    clip-path: polygon(0 100%, 100% 100%, 100% 0);
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
   }
 `;
 
