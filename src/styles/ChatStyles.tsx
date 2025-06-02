@@ -123,12 +123,12 @@ export const MessagesContainer = styled.div`
   position: relative;
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
+  padding: 16px 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
   scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
+  scrollbar-color: rgba(224, 224, 224, 0.3) transparent;
   transition: scrollbar-color 0.3s ease;
   min-height: 0;
   padding-bottom: env(safe-area-inset-bottom);
@@ -159,7 +159,7 @@ export const MessagesContainer = styled.div`
   &:hover,
   &:focus,
   &:active {
-    scrollbar-color: #666 transparent;
+    scrollbar-color: rgba(208, 208, 208, 0.3) transparent;
   }
 
   @media (max-width: ${breakpoints.mobile}) {
@@ -177,7 +177,7 @@ export const MessagesContainer = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background: transparent;
+    background: rgba(224, 224, 224, 0.3);
     border-radius: 3px;
     transition: background-color 0.3s ease;
   }
@@ -186,7 +186,7 @@ export const MessagesContainer = styled.div`
   &:focus,
   &:active {
     &::-webkit-scrollbar-thumb {
-      background: #666;
+      background: rgba(208, 208, 208, 0.3);
     }
   }
 `;
