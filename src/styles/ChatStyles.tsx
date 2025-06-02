@@ -136,15 +136,6 @@ export const MessagesContainer = styled.div`
 
   &::before {
     content: '';
-    position: static;
-    background: none;
-    opacity: 1;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  &::after {
-    content: '';
     position: fixed;
     left: 50%;
     top: 50%;
@@ -205,13 +196,14 @@ export const MessageBubble = styled.div<StyledProps>`
   padding: 12px 16px;
   margin: 4px 0;
   border-radius: 18px;
-  background-color: ${(props: StyledProps) => props.isUser ? '#f07a03' : '#ffffff'};
   color: ${(props: StyledProps) => props.isUser ? '#ffffff' : '#222222'};
   align-self: ${(props: StyledProps) => props.isUser ? 'flex-end' : 'flex-start'};
   word-wrap: break-word;
   font-size: 15px;
   line-height: 1.5;
   position: relative;
+  backdrop-filter: blur(8px);
+  background-color: ${(props: StyledProps) => props.isUser ? 'rgba(240, 122, 3, 0.95)' : 'rgba(255, 255, 255, 0.95)'};
 
   @media (max-width: ${breakpoints.mobile}) {
     max-width: 85%;
@@ -459,6 +451,7 @@ export const BubbleImagesWrapper = styled.div`
 export const AboutButtonGroup = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 14px;
   margin-top: 16px;
 `;

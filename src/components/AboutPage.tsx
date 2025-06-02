@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import type { ChangeEvent, KeyboardEvent } from 'react';
 import {
   ChatContainer,
   Header,
@@ -11,10 +10,6 @@ import {
   ShareIcon,
   OptionButton,
   MessagesContainer,
-  InputContainer,
-  InputWrapper,
-  Input,
-  EnterButton,
   MessageBubble,
   AboutButton,
   AboutButtonGroup,
@@ -35,11 +30,15 @@ const WELCOME_MESSAGE = `안녕하세요. 플랜P 고객님!
 무엇을 도와드릴까요?`;
 
 const ACTION_BUTTONS = [
+  '질문 시작하기'
+];
+
+const MAIN_BUTTONS = [
   '호반그룹 알아보기',
   '시세정보 알아보기',
   '발표 외 AI 활용 아이디어 알아보기',
   '오늘의 식단 알아보기',
-  '플랜P 프로젝트 알아보기',
+  '플랜P 프로젝트 알아보기'
 ];
 
 const MARKET_INFO_BUTTONS = ['환율', '자재시세'];
@@ -119,14 +118,22 @@ const AboutPage: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: Date.now(),
-      text: WELCOME_MESSAGE,
+      text: (
+        <>
+          HOBANAI 챗봇에 오신 것을 환영합니다.
+          <AboutButtonGroup>
+            {ACTION_BUTTONS.map((text, idx) => (
+              <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                {text}
+              </AboutButton>
+            ))}
+          </AboutButtonGroup>
+        </>
+      ),
       isUser: false,
     }
   ]);
-  const [inputValue, setInputValue] = useState('');
-  const [isComposing, setIsComposing] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [modalImage, setModalImage] = useState<string | null>(null);
 
   const scrollToBottom = () => {
@@ -136,38 +143,6 @@ const AboutPage: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  const adjustTextareaHeight = () => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = 'auto';
-      const newHeight = Math.min(textarea.scrollHeight, 7 * 24);
-      textarea.style.height = `${newHeight}px`;
-    }
-  };
-
-  useEffect(() => {
-    adjustTextareaHeight();
-  }, [inputValue]);
-
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleCompositionStart = () => {
-    setIsComposing(true);
-  };
-
-  const handleCompositionEnd = () => {
-    setIsComposing(false);
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
-      e.preventDefault();
-      handleSubmit();
-    }
-  };
 
   const handleImageClick = (src: string) => {
     setModalImage(src);
@@ -186,7 +161,30 @@ const AboutPage: React.FC = () => {
 
     let botResponse: Message;
     
-    if (buttonText === '호반그룹 알아보기') {
+    if (buttonText === '질문 시작하기') {
+      botResponse = {
+        id: Date.now() + 1,
+        type : 'welcomeMessage',
+        text: (
+          <>
+          {WELCOME_MESSAGE.split('\n').map((line, idx) => (
+              <React.Fragment key={idx}>
+                {line}
+                <br />
+              </React.Fragment>
+            ))}
+            <AboutButtonGroup>
+              {MAIN_BUTTONS.map((text, idx) => (
+                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                  {text}
+                </AboutButton>
+              ))}
+            </AboutButtonGroup>
+          </>
+        ),
+        isUser: false,
+      };
+    } else if (buttonText === '호반그룹 알아보기') {
       botResponse = {
         id: Date.now() + 1,
         text: (
@@ -572,12 +570,7 @@ const AboutPage: React.FC = () => {
         id: Date.now() + 1,
         text: (
           <>
-            {WELCOME_MESSAGE.split('\n').map((line, idx) => (
-              <React.Fragment key={idx}>
-                {line}
-                <br />
-              </React.Fragment>
-            ))}
+           
             <AboutButtonGroup>
               {ACTION_BUTTONS.map((text, idx) => (
                 <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
@@ -590,43 +583,7 @@ const AboutPage: React.FC = () => {
         isUser: false,
       };
     }
-
     setMessages(prev => [...prev, userMessage, botResponse]);
-  };
-
-  const handleSubmit = () => {
-    if (!inputValue.trim() || isComposing) return;
-
-    const userMessage: Message = {
-      id: Date.now(),
-      text: inputValue,
-      isUser: true,
-    };
-
-    const botMessage: Message = {
-      id: Date.now() + 1,
-      text: (
-        <>
-          {WELCOME_MESSAGE.split('\n').map((line, idx) => (
-            <React.Fragment key={idx}>
-              {line}
-              <br />
-            </React.Fragment>
-          ))}
-          <AboutButtonGroup>
-            {ACTION_BUTTONS.map((text, idx) => (
-              <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
-                {text}
-              </AboutButton>
-            ))}
-          </AboutButtonGroup>
-        </>
-      ),
-      isUser: false,
-    };
-
-    setMessages(prev => [...prev, userMessage, botMessage]);
-    setInputValue('');
   };
 
   const handleRestart = () => {
@@ -634,7 +591,7 @@ const AboutPage: React.FC = () => {
       ...prev,
       {
         id: Date.now(),
-        type:'welcomeMessage',
+        type: 'welcomeMessage',
         text: (
           <>
             {WELCOME_MESSAGE.split('\n').map((line, idx) => (
@@ -644,7 +601,7 @@ const AboutPage: React.FC = () => {
               </React.Fragment>
             ))}
             <AboutButtonGroup>
-              {ACTION_BUTTONS.map((text, idx) => (
+              {MAIN_BUTTONS.map((text, idx) => (
                 <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
                   {text}
                 </AboutButton>
@@ -680,53 +637,23 @@ const AboutPage: React.FC = () => {
       <MessagesContainer>
         {messages.map((message, idx) => (
           <MessageBubble key={message.id} isUser={message.isUser}>
-            {typeof message.text === 'string'
-              ? message.text.split('\n').map((line, idx) => (
-                  <React.Fragment key={idx}>
-                    {line}
-                    <br />
-                  </React.Fragment>
-                ))
-              : message.text}
-            {!message.isUser && idx === 0 && (
-              <AboutButtonGroup>
-                {ACTION_BUTTONS.map((text, idx) => (
-                  <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
-                    {text}
-                  </AboutButton>
-                ))}
-              </AboutButtonGroup>
-            )}
-            {!message.isUser && idx === messages.length - 1 && messages.length > 1 && message.type !== "welcomeMessage" && (
-              <AboutButtonGroup style={{ justifyContent: 'flex-end', gap: 14 }}>
-                <AboutButton onClick={handleRestart}>다른 질문 시작하기</AboutButton>
-              </AboutButtonGroup>
-            )}
+              {typeof message.text === 'string'
+                ? message.text.split('\n').map((line, idx) => (
+                    <React.Fragment key={idx}>
+                      {line}
+                      <br />
+                    </React.Fragment>
+                  ))
+                : message.text}
+              {!message.isUser && idx === messages.length - 1 && messages.length > 1 && message.type !== "welcomeMessage" && (
+                <AboutButtonGroup style={{ marginTop: '14px' }}>
+                  <AboutButton onClick={handleRestart}>다른 질문 시작하기</AboutButton>
+                </AboutButtonGroup>
+              )}
           </MessageBubble>
         ))}
         <div ref={messagesEndRef} />
       </MessagesContainer>
-      <InputContainer>
-        <InputWrapper>
-          <Input
-            ref={textareaRef}
-            value={inputValue}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown}
-            onCompositionStart={handleCompositionStart}
-            onCompositionEnd={handleCompositionEnd}
-            placeholder="메시지 입력"
-            rows={1}
-          />
-          <EnterButton 
-            onClick={handleSubmit}
-            disabled={!inputValue.trim() || isComposing}
-            hasInput={inputValue.trim().length > 0}
-          >
-            전송
-          </EnterButton>
-        </InputWrapper>
-      </InputContainer>
       {modalImage && (
         <ModalOverlay onClick={handleCloseModal}>
           <ModalImage src={modalImage} alt="확대 이미지" onClick={e => e.stopPropagation()} />
