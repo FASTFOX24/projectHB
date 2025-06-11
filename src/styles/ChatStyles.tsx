@@ -483,24 +483,24 @@ export const AboutButtonGroup = styled.div`
   margin-top: 16px;
 `;
 
-export const AboutButton = styled.button`
-  background: #e8e8e8;
-  color: #575553;
+export const AboutButton = styled.button<{ isRestart?: boolean }>`
+  background: ${props => props.isRestart ? '#f8efc4' : '#e8e8e8'};
+  color: ${props => props.isRestart ? '#575553' : '#575553'};
   border: none;
   border-radius: 12px;
   padding: 10px 16px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: ${props => props.isRestart ? '0 2px 8px rgba(0,0,0,0.05)' : '0 2px 8px rgba(0,0,0,0.05)'};
+  transition: all 0.2s ease;
   text-align: center;
   letter-spacing: 0.5px;
   width: 100%;
   &:hover {
-    background: #d8d8d8;
-    color: #575553;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    background: ${props => props.isRestart ? '#e6d9a3' : '#d8d8d8'};
+    color: ${props => props.isRestart ? '#575553' : '#575553'};
+    box-shadow: ${props => props.isRestart ? '0 4px 16px rgba(0,0,0,0.08)' : '0 4px 16px rgba(0,0,0,0.08)'};
   }
 `;
 

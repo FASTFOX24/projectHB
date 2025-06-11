@@ -187,7 +187,7 @@ export const AboutPage: React.FC = () => {
   const handleButtonClick = (text: string) => {
     const userMessage: Message = {
       id: Date.now(),
-      text,
+      text: text === '건축' ? '균열 유도줄눈 커팅 시공기준을 알려줘' : text,
       isUser: true,
     };
 
@@ -528,7 +528,7 @@ export const AboutPage: React.FC = () => {
                   : message.text}
                 {!message.isUser && idx === messages.length - 1 && messages.length > 1 && message.type !== "welcomeMessage" && (
                   <AboutButtonGroup style={{ marginTop: '14px' }}>
-                    <AboutButton onClick={handleRestart}>다른 질문 시작하기</AboutButton>
+                    <AboutButton isRestart onClick={handleRestart}>다른 질문 시작하기</AboutButton>
                   </AboutButtonGroup>
                 )}
               </MessageBubble>
