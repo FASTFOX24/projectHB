@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { ChangeEvent, KeyboardEvent, FormEvent } from 'react';
 import type { Message as MessageBase } from '../types/chat';
+import OrderModal from './OrderModal';
 import {
   ChatContainer,
   Header,
@@ -40,6 +41,8 @@ export const ChatInterface: React.FC = () => {
   const [modalImg, setModalImg] = useState<string | null>(null);
   const [lastUserQuestion, setLastUserQuestion] = useState<string | null>(null);
   const [lastUserQuestions, setLastUserQuestions] = useState<string[]>([]);
+  const [orderModalOpen, setOrderModalOpen] = useState(false);
+  const [orderSuccessModalOpen, setOrderSuccessModalOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -247,7 +250,7 @@ export const ChatInterface: React.FC = () => {
         id: Date.now() + 21,
         text: (
           <span>
-            다음주 월요일에(6월 30일) 6동부터 15동 16층부터 최상층(22F~25F)까지 조적 작업이 있습니다. 현재 남아있는 조적용 레미탈 양은 25포(40kg 단위)입니다. '플랜P 현장'의 '00건설' 작업팀 일일 평균 레미탈 시공량은 3포대고, 평균 배송기간은 일주일입니다. 따라서 금일 혹은 명일에 발주 넣는 것을 추천드립니다. 아래 링크을 누르시면 자동으로 발주 주문을 넣어드리겠습니다.<br /><br />
+            다음주 월요일에(6월 30일) 6동부터 15동 16층부터 최상층(22F~25F)까지 조적 작업이 있습니다. 현재 남아있는 조적용 레미탈 양은 50포(40kg 단위)입니다. '플랜P 현장'의 '00건설' 작업팀 일일 평균 레미탈 시공량은 3포대고, 평균 배송기간은 일주일입니다. 따라서 금일 혹은 명일에 발주 넣는 것을 추천드립니다. 아래 링크을 누르시면 자동으로 발주 주문을 넣어드리겠습니다.<br /><br />
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '4px' }}>
               <BubbleButton
                 style={{
@@ -271,7 +274,7 @@ export const ChatInterface: React.FC = () => {
                   (e.currentTarget as HTMLButtonElement).style.background = '#f07a03';
                   (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(240,122,3,0.15)';
                 }}
-                onClick={() => alert('발주가 접수되었습니다!')}
+                onClick={() => setOrderModalOpen(true)}
               >
                 레미탈 발주 바로 넣기
               </BubbleButton>
@@ -585,9 +588,9 @@ export const ChatInterface: React.FC = () => {
         ))}
         {isLoading && (
           <MessageWrapper isUser={false}>
-            <ProfileImage src="/bani.jpeg" alt="바니" />
+            <ProfileImage src="/honi.jpeg" alt="호니" />
             <MessageContent>
-              <ProfileName isUser={false}>바니</ProfileName>
+              <ProfileName isUser={false}>호니</ProfileName>
               <LoadingBubble>
                 <LoadingDots>
                   <Dot />
@@ -629,6 +632,21 @@ export const ChatInterface: React.FC = () => {
           />
         </ModalOverlay>
       )}
+      <OrderModal
+        isOpen={orderModalOpen}
+        onClose={() => setOrderModalOpen(false)}
+        onConfirm={() => {
+          setOrderModalOpen(false);
+          setOrderSuccessModalOpen(true);
+        }}
+        type="confirm"
+      />
+      <OrderModal
+        isOpen={orderSuccessModalOpen}
+        onClose={() => setOrderSuccessModalOpen(false)}
+        onConfirm={() => setOrderSuccessModalOpen(false)}
+        type="success"
+      />
     </ChatContainer>
   );
 }; 
