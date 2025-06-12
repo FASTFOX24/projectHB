@@ -72,9 +72,9 @@ const Button = styled.button<{ isConfirm?: boolean }>`
 const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose, onConfirm, type }) => {
   if (!isOpen) return null;
 
-  const orderDetails = `자재 : 레미탈 400포(1개당 가격 5000원)
-총 가격 :  2,000,000원
-도착 예정시기 : 6월 30일
+  const orderDetails = `자재 : 레미탈 400포(개당 가격 4549원)
+총 가격 :  1,819,600원
+도착 예정시기 : 6월 26일
 주문 업체 : ㅁㅁ레미탈
 업체 담당자 : 정명훈 (전화번호 : 010-xxxx-xxxx)`;
 
