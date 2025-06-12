@@ -588,9 +588,9 @@ export const ChatInterface: React.FC = () => {
         ))}
         {isLoading && (
           <MessageWrapper isUser={false}>
-            <ProfileImage src="/honi.jpeg" alt="호니" />
+            <ProfileImage src="/bani.jpeg" alt="바니" />
             <MessageContent>
-              <ProfileName isUser={false}>호니</ProfileName>
+              <ProfileName isUser={false}>바니</ProfileName>
               <LoadingBubble>
                 <LoadingDots>
                   <Dot />
