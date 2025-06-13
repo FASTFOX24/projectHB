@@ -100,12 +100,12 @@ export const ChatInterface: React.FC = () => {
     }
 
     // 공정계획 추천 커스텀 응답
-    if (inputValue.trim() === '내일부터 1주일동안 비가 내려서 콘크리트 타설을 다음주 월요일로 미뤄야 할 거 같아 공정계획 추천해줘') {
+    if (inputValue.trim() === '내일 갑자기 비가 내려서 콘크리트 타설을 내일모레로 미뤄야 할 거 같아') {
       const botMessage: Message = {
         id: Date.now() + 2,
         text: (
           <span>
-            네, 오늘 6월 19일부터 기상청 날씨 데이터를 분석해 공정표를 수정하겠습니다.<br /><br />
+            네, 오늘 6월 19일부터 기상청 날씨 데이터를 분석해 공정표를 수정하고 공정계획 추천하겠습니다.<br /><br />
             <BubbleImage
               src="/weather.png"
               onClick={() => { setModalImg('/weather.png'); setModalOpen(true); }}
@@ -158,13 +158,27 @@ export const ChatInterface: React.FC = () => {
       }, 3000);
       return;
     }
+    if (inputValue.trim() === '1번 방안으로 하루 미루면 어떻게 돼') {
+      if (lastUserQuestion === '내일 갑자기 비가 내려서 콘크리트 타설을 내일모레로 미뤄야 할 거 같아') {
+      const botMessage: Message = {
+        id: Date.now() + 1,
+        text: '원래 일정이었던 내일(20일) 101동 타설을 내일 모레(21일)로 옮기면서 101동, 109동 2개동을 타설해야 합니다. 그럴 경우 펌프카를 총 2대를 불러야 합니다.\n\n※ 2대를 부를 경우 2동 필로티도 함께 타설할 수 있습니다.\n\n※ 타설 유관 업체에(골조, 설비, 전기) 공정 변경사항을 전달할 수 있습니다.',
+        isUser: false,
+      };
+      setTimeout(() => {
+        setMessages(prev => [...prev, botMessage]);
+        setIsLoading(false);
+      }, 3000);
+      return;
+    }
+    }
 
     // 좋아 2번으로 선택할게. 이 공정표를 공유폴더의 주간, 월간, 전체 공정표에 수정해서 반영해줘
-    if (inputValue.trim() === '좋아 2번으로 선택할게 이 공정표를 공유폴더의 주간, 월간, 전체 공정표에 수정해서 반영해줘') {
-      if (lastUserQuestion === '내일부터 1주일동안 비가 내려서 콘크리트 타설을 다음주 월요일로 미뤄야 할 거 같아 공정계획 추천해줘') {
+    if (inputValue.trim() === '좋아 그렇게 해줘') {
+      if (lastUserQuestion === '1번 방안으로 하루 미루면 어떻게 돼') {
         const msg1: Message = {
           id: Date.now() + 10,
-          text: '네, 주간 공정표와 월간 공정표, 전체 공정표를 수정하겠습니다.',
+          text: '네, 이를 반영해서 펌프카 2대 발주 및 유관업체에 연락하겠습니다. 또한 공유폴더 내의 주간 공정표와 월간 공정표, 전체 공정표를 수정하겠습니다.',
           isUser: false,
         };
         const msg2: Message = {
@@ -293,15 +307,10 @@ export const ChatInterface: React.FC = () => {
       return;
     }
 
-    // 주문한 자재가 오늘 아침에 들어왔어 스캔폴더에 있는 가장 최근 거래 명세서를 데이터화해줘
-    if (inputValue.trim() === '주문한 자재가 오늘 아침에 들어왔어 스캔폴더에 있는 가장 최근 거래 명세서를 데이터화해줘') {
+    // 주문한 자재가 오늘 아침에 들어와서 송장 스캔했으니까 자재일지 작성해줘
+    if (inputValue.trim() === '아침에 자재 들어와서 송장 스캔했으니까 자재일지 작성해줘') {
       const msg1: Message = {
         id: Date.now() + 30,
-        text: '해당 거래명세서가 맞습니까?',
-        isUser: false,
-      };
-      const msg2: Message = {
-        id: Date.now() + 31,
         text: (
           <BubbleImage
             src="/bill.png"
@@ -310,11 +319,37 @@ export const ChatInterface: React.FC = () => {
         ),
         isUser: false,
       };
+      const msg2: Message = {
+        id: Date.now() + 31,
+        text: '스캔폴더에 있는 최근 거래명세서를 데이터화하여 자재일지에 반영하겠습니다.\n \n백관 나시부속 주물소켓 (50A) 20EA\n공구상자 (370*185*116) 20EA\n공구상자 (505*335*195) 20EA\n고압밴드 (35~50mm) 10EA\n백관 나시부속 철중니플 (50A) 20EA\n흑고압 에어호스 (19mm*50) 4EA\n사다리전도방지대 2EA\n붓싱(나사)백 (50A x 25A) 10EA',
+        isUser: false,
+      };
+      const msg3: Message = {
+        id: Date.now() + 32,
+        text: (
+          <BubbleImage
+              src="/material_2.png"
+              onClick={() => { setModalImg('/material_2.png'); setModalOpen(true); }}
+            />
+        ),
+        isUser: false,
+      };
+      const msg4: Message = {
+        id: Date.now() + 33,
+        text: '공유폴더에 있는 자재일지 양식을 바탕으로 최신화했습니다.',
+        isUser: false,
+      };
       setTimeout(() => {
         setMessages(prev => [...prev, msg1]);
         setIsLoading(false);
         setTimeout(() => {
           setMessages(prev => [...prev, msg2]);
+          setTimeout(() => {
+            setMessages(prev => [...prev, msg3]);
+            setTimeout(() => {
+              setMessages(prev => [...prev, msg4]);
+            }, 500);
+          }, 500);
         }, 500);
       }, 3000);
       return;
@@ -369,16 +404,14 @@ export const ChatInterface: React.FC = () => {
     }
 
     if (inputValue.trim() === '자재 일지랑 공사일보에 있는 데이터를 바탕으로 기성문서를 작성해서 기안문까지 올려줘') {
-      
-      if (lastUserQuestion === '위의 데이터로 자재일지 작성해줘') {
         const msg1: Message = {
           id: Date.now() + 50,
-          text: '지난 1달간의 자재일지와 공사일보를 분석하여 출력인원 및 자재 발주량을 산출했습니다. 공사일보와 공정표를 분석하여 시공량을 산출했습니다. 이를 바탕으로 기성문서 및 기안문을 작성하겠습니다. 실제 현장상황과 다를 수 있으니 검토 부탁드립니다.',
+          text: '지난 한 달간의 자재일지와 공사일보를 분석하여 출력인원 및 자재 발주량을 산출했습니다. 공사일보와 공정표를 분석하여 시공량을 산출했습니다. 이를 바탕으로 기성문서 및 기안문을 작성하겠습니다. 실제 현장상황과 다를 수 있으니 검토 부탁드립니다.',
           isUser: false,
         };
         const msg2: Message = {
           id: Date.now() + 51,
-          text: `지난 한 달간의 데이터로 산출한 '자재일지' 총합본입니다.`,
+          text: `지난 한 달간의 데이터로 산출한 ‘자재일지’ 총합본, 노무비 지급명세서, 기안문입니다.`,
           isUser: false,
         };
         const msg3: Message = {
@@ -393,22 +426,30 @@ export const ChatInterface: React.FC = () => {
         };
         const msg4: Message = {
           id: Date.now() + 53,
-          text: `지난 한 달간의 출력으로 산출한 '노무비 지금명세서'입니다.`,
+          text: (<BubbleImage
+            src="/sample_1.png"
+            onClick={() => { setModalImg('/sample_1.png'); setModalOpen(true); }}
+          />),
           isUser: false,
         };
         const msg5: Message = {
           id: Date.now() + 54,
           text: (
             <BubbleImage
-              src="/statement.png"
-              onClick={() => { setModalImg('/statement.png'); setModalOpen(true); }}
+              src="/sample_2.png"
+              onClick={() => { setModalImg('/sample_2.png'); setModalOpen(true); }}
             />
           ),
           isUser: false,
         };
         const msg6: Message = {
           id: Date.now() + 55,
-          text: '기존의 기안문 양식을 바탕으로 작성한 기안문입니다.',
+          text: (
+            <BubbleImage
+              src="/statement.png"
+              onClick={() => { setModalImg('/statement.png'); setModalOpen(true); }}
+            />
+          ),
           isUser: false,
         };
         const msg7: Message = {
@@ -444,7 +485,6 @@ export const ChatInterface: React.FC = () => {
           }, 500);
         }, 3000);
         return;
-      }
     }
 
     // 상수공 공사 서류처리 절차 안내
@@ -535,6 +575,8 @@ export const ChatInterface: React.FC = () => {
       setMessages(prev => [...prev, botMessage]);
       setIsLoading(false);
     }, 3000);
+
+    
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {

@@ -347,6 +347,8 @@ export const AboutPage: React.FC = () => {
 · 동별, 세대별 투입 예상 물량 확인후 운반하고, 잔여 자재는 즉시 반출 또는 상부층으로 운반하여 사용한다.
 · 앵커철물 설치기준(층고 2,830 ㎜ 기준) ① 바닥먹 위치 확인후 수직먹을 정밀 시공한다. ② 욕 실 : 4 단째를 시작으로 5 단(@330 ㎜)마다 총 7 개 시공 ③ 욕실 외 : 4 단째를 시작으로 9 단(@600 ㎜)마다 총 4 개 시공<br/><br/>
  자세한 사항은 아래 건축기술지침 [HGE-H5-002]을 참고해주시기 바랍니다.<br /><br />
+ 아래 링크를 누르시면 가장 최근 시공지침을 볼 수 있습니다.<br />
+ <a href='https://drive.google.com/file/d/1kNoU9waM5f6bN0vQMhSgi9MHlOsX9Z8L/view?usp=drive_link'>시공지침 보기</a>
           <ResponseImage src="/guidebook_3.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook_3.png')} />
         </>
       );
@@ -358,7 +360,9 @@ export const AboutPage: React.FC = () => {
 2. 현장조건이 변화되어 흙막이 공법 또는 설계를 변경할 필요가 발생했을 경우 설계사와 협의 후, 적법한 절차를 통해서 변경승인 후 시행한다.<br/><br/>
 3. 터파기 착수 전에 흙막이 계획서를 감리단에 제출 후 승인을 받아야 한다.<br/><br/>
 4. 흙막이 설치 및 존치기간 중에는 안정상 필요한 계측과 점검을 하고 이상이 발견되었을 때에는 신속히 보강하거나 기타 필요한 조치를 한다.<br/><br/>
- 추가 사항은 아래 호반건설 사내 건축시공지침 [HGE-H5-001]을 참고해주시기 바랍니다.
+ 추가 사항은 아래 호반건설 사내 건축시공지침 [HGE-H5-001]을 참고해주시기 바랍니다.<br/><br/>
+ 아래 링크를 누르시면 가장 최근 시공지침을 볼 수 있습니다.<br/>
+ <a href="https://drive.google.com/file/d/1RWuzFk_4_EI78PNmkj57CDoyyQr_uayg/view?usp=drive_link">시공지침 보기</a>
           <ResponseImage src="/guidebook.png" alt="가이드북" style={{ maxWidth: '100%', marginTop: '12px' }} onClick={() => handleImageClick('/guidebook.png')} />
         </>
       );
