@@ -39,7 +39,6 @@ export const ChatInterface: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalImg, setModalImg] = useState<string | null>(null);
-  const [lastUserQuestion, setLastUserQuestion] = useState<string | null>(null);
   const [lastUserQuestions, setLastUserQuestions] = useState<string[]>([]);
   const [orderModalOpen, setOrderModalOpen] = useState(false);
   const [orderSuccessModalOpen, setOrderSuccessModalOpen] = useState(false);
@@ -79,7 +78,6 @@ export const ChatInterface: React.FC = () => {
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
-    setLastUserQuestion(inputValue.trim());
     setLastUserQuestions(prev => {
       const next = [...prev, inputValue.trim()];
       return next.length > 2 ? next.slice(-2) : next;
@@ -159,7 +157,6 @@ export const ChatInterface: React.FC = () => {
       return;
     }
     if (inputValue.trim() === '1번 방안으로 하루 미루면 어떻게 돼') {
-      if (lastUserQuestion === '내일 갑자기 비가 내려서 콘크리트 타설을 내일모레로 미뤄야 할 거 같아') {
       const botMessage: Message = {
         id: Date.now() + 1,
         text: '원래 일정이었던 내일(20일) 101동 타설을 내일 모레(21일)로 옮기면서 101동, 109동 2개동을 타설해야 합니다. 그럴 경우 펌프카를 총 2대를 불러야 합니다.\n\n※ 2대를 부를 경우 2동 필로티도 함께 타설할 수 있습니다.\n\n※ 타설 유관 업체에(골조, 설비, 전기) 공정 변경사항을 전달할 수 있습니다.',
@@ -171,11 +168,9 @@ export const ChatInterface: React.FC = () => {
       }, 3000);
       return;
     }
-    }
 
     // 좋아 2번으로 선택할게. 이 공정표를 공유폴더의 주간, 월간, 전체 공정표에 수정해서 반영해줘
     if (inputValue.trim() === '좋아 그렇게 해줘') {
-      if (lastUserQuestion === '1번 방안으로 하루 미루면 어떻게 돼') {
         const msg1: Message = {
           id: Date.now() + 10,
           text: '네, 이를 반영해서 펌프카 2대 발주 및 유관업체에 연락하겠습니다. 또한 공유폴더 내의 주간 공정표와 월간 공정표, 전체 공정표를 수정하겠습니다.',
@@ -249,8 +244,6 @@ export const ChatInterface: React.FC = () => {
           }, 500);
         }, 3000);
         return;
-      }
-      // 사전 질문이 없으면 임시 응답
     }
 
     // 발주 및 기성관리
@@ -357,7 +350,6 @@ export const ChatInterface: React.FC = () => {
 
     // 응 맞아
     if (inputValue.trim() === '응 맞아') {
-      if (lastUserQuestion === '주문한 자재가 오늘 아침에 들어왔어 스캔폴더에 있는 가장 최근 거래 명세서를 데이터화해줘') {
         const botMessage: Message = {
           id: Date.now() + 40,
           text: `네 알겠습니다. AI 카메라 스캔을 통해 거래 명세서를 다음과 같이 데이터화했습니다.\n \n백관 나시부속 주물소켓 (50A) 20EA\n공구상자 (370*185*116) 20EA\n공구상자 (505*335*195) 20EA\n고압밴드 (35~50mm) 10EA\n백관 나시부속 철중니플 (50A) 20EA\n흑고압 에어호스 (19mm*50) 4EA\n사다리전도방지대 2EA\n붓싱(나사)백 (50A x 25A) 10EA`,
@@ -368,8 +360,6 @@ export const ChatInterface: React.FC = () => {
           setIsLoading(false);
         }, 3000);
         return;
-      }
-      // 사전 질문이 없으면 임시 응답
     }
 
     if (inputValue.trim() === '위의 데이터로 자재일지 작성해줘') {
@@ -411,54 +401,60 @@ export const ChatInterface: React.FC = () => {
         };
         const msg2: Message = {
           id: Date.now() + 51,
-          text: `지난 한 달간의 데이터로 산출한 ‘자재일지’ 총합본, 노무비 지급명세서, 기안문입니다.`,
+          text: `지난 한 달간의 데이터로 산출한 '자재일지' 총합본, 노무비 지급명세서, 기안문입니다.`,
           isUser: false,
         };
         const msg3: Message = {
           id: Date.now() + 52,
           text: (
-            <BubbleImage
-              src="/logbook.png"
-              onClick={() => { setModalImg('/logbook.png'); setModalOpen(true); }}
-            />
-          ),
-          isUser: false,
-        };
-        const msg4: Message = {
-          id: Date.now() + 53,
-          text: (<BubbleImage
-            src="/sample_1.png"
-            onClick={() => { setModalImg('/sample_1.png'); setModalOpen(true); }}
-          />),
-          isUser: false,
-        };
-        const msg5: Message = {
-          id: Date.now() + 54,
-          text: (
-            <BubbleImage
-              src="/sample_2.png"
-              onClick={() => { setModalImg('/sample_2.png'); setModalOpen(true); }}
-            />
-          ),
-          isUser: false,
-        };
-        const msg6: Message = {
-          id: Date.now() + 55,
-          text: (
-            <BubbleImage
-              src="/statement.png"
-              onClick={() => { setModalImg('/statement.png'); setModalOpen(true); }}
-            />
-          ),
-          isUser: false,
-        };
-        const msg7: Message = {
-          id: Date.now() + 56,
-          text: (
-            <BubbleImage
-              src="/statement_1.png"
-              onClick={() => { setModalImg('/statement_1.png'); setModalOpen(true); }}
-            />
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              gap: '16px',
+            }}>
+              <div style={{
+                display: 'flex',
+                gap: '16px',
+                justifyContent: 'flex-start',
+              }}>
+                <BubbleImage
+                  src="/logbook.png"
+                  onClick={() => { setModalImg('/logbook.png'); setModalOpen(true); }}
+                  style={{ width: 'calc(50% - 8px)', height: '200px', objectFit: 'cover' }}
+                />
+                <BubbleImage
+                  src="/sample_1.png"
+                  onClick={() => { setModalImg('/sample_1.png'); setModalOpen(true); }}
+                  style={{ width: 'calc(50% - 8px)', height: '200px', objectFit: 'cover' }}
+                />
+              </div>
+              <div style={{
+                display: 'flex',
+                gap: '16px',
+                justifyContent: 'flex-start',
+              }}>
+                <BubbleImage
+                  src="/sample_2.png"
+                  onClick={() => { setModalImg('/sample_2.png'); setModalOpen(true); }}
+                  style={{ width: 'calc(50% - 8px)', height: '200px', objectFit: 'cover' }}
+                />
+                <BubbleImage
+                  src="/statement.png"
+                  onClick={() => { setModalImg('/statement.png'); setModalOpen(true); }}
+                  style={{ width: 'calc(50% - 8px)', height: '200px', objectFit: 'cover' }}
+                />
+              </div>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+              }}>
+                <BubbleImage
+                  src="/statement_1.png"
+                  onClick={() => { setModalImg('/statement_1.png'); setModalOpen(true); }}
+                  style={{ width: 'calc(50% - 8px)', height: '200px', objectFit: 'cover' }}
+                />
+              </div>
+            </div>
           ),
           isUser: false,
         };
@@ -469,18 +465,6 @@ export const ChatInterface: React.FC = () => {
             setMessages(prev => [...prev, msg2]);
             setTimeout(() => {
               setMessages(prev => [...prev, msg3]);
-              setTimeout(() => {
-                setMessages(prev => [...prev, msg4]);
-                setTimeout(() => {
-                  setMessages(prev => [...prev, msg5]);
-                  setTimeout(() => {
-                    setMessages(prev => [...prev, msg6]);
-                    setTimeout(() => {
-                      setMessages(prev => [...prev, msg7]);
-                    }, 500);
-                  }, 500);
-                }, 500);
-              }, 500);
             }, 500);
           }, 500);
         }, 3000);
@@ -503,7 +487,6 @@ export const ChatInterface: React.FC = () => {
 
     // 상수공 공사 서류처리 절차 실행
     if (inputValue.trim() === '너가 말한 절차 바로 처리해줘') {
-      if (lastUserQuestion === '우리 현장에 25년 4월부터 상수공 공사가 시작될 것 같아 관련해서 서류처리해야 할 게 뭐가 있을까?') {
         const msg1: Message = {
           id: Date.now() + 110,
           text: `알겠습니다. 기존 입력된 공문 양식을 바탕으로 생성하였습니다.\n\n1. '25-059 공문.hwp' 생성\n2. '상수공 시공계획서.xlsx' 출력\n3. 현장관리자 (자사 직원 13명) 결재요청\n4. 25년 04월 이후 '주간공정회의 자료', '발주처 회의 자료', '협력업체 회의 자료' 업데이트`,
@@ -535,7 +518,6 @@ export const ChatInterface: React.FC = () => {
           }, 500);
         }, 3000);
         return;
-      }
     }
 
     // AI 검측요청서 활용 방법 안내
