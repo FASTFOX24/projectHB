@@ -42,7 +42,8 @@ const MAIN_BUTTONS = [
   '호반그룹 알아보기',
   '시세정보 알아보기',
   '오늘의 식단 알아보기',
-  '플랜P 프로젝트 팀원 알아보기'
+  '플랜P 프로젝트 팀원 알아보기',
+  '출력일보 작성하기'
 ];
 
 const MARKET_INFO_BUTTONS = ['환율', '자재시세'];
@@ -185,9 +186,14 @@ export const AboutPage: React.FC = () => {
   };
 
   const handleButtonClick = (text: string) => {
+    if (text === "출력일보 작성하기") {
+      window.location.href = 'https://m.site.naver.com/1Jswn';
+      return;
+    }
+
     const userMessage: Message = {
       id: Date.now(),
-      text: text === '건축' ? '조적공종이 다음 주 월요일에 들어오는데 내가 알아두고 확인할 사항들을 정리해줘' : text === '토목,조경' ? '흙막이 공사에 대해 설명해줘' : text === '설비,소방' ? '저수조 설치기준 설명해줘' : text === 'TBM(기계)' ? 'TBM 및 터널 내 운반, 보급, 취급 지침에 대해 설명해줘': text,
+      text: text === '건축' ? '조적공종이 다음 주 월요일에 들어오는데 내가 알아두고 확인할 사항들을 정리해줘' : text === '토목,조경' ? '흙막이 공사에 대해 설명해줘' : text === '설비,소방' ? '저수조 설치기준 설명해줘' : text === 'TBM(기계)' ? 'TBM 및 터널 내 운반, 보급, 취급 지침에 대해 설명해줘': text === '오늘의 식단 알아보기' ? '오늘 점심 뭐야?' : text,
       isUser: true,
     };
 
@@ -421,12 +427,15 @@ TBM 운반에 대해서 설명드리겠습니다. <br /><br />
       );
     } else if (text === '오늘의 식단 알아보기') {
       return (
+        <>
         <ResponseImage
           src="/menu.png"
           alt="금주의 식단"
           style={{ maxWidth: '100%', marginTop: '12px' }}
           onClick={() => handleImageClick('/menu.png')}
         />
+        금일 점심메뉴는 보리밥/현미밥, 순두부찌개, 통가자미 구이, 옛날 소세지전&케찹, 모듬 묵&양념장, 오이사과 초무침/포기김치입니다. 총 892kcal이며, 후식으로는 믹스베리 샐러드와 자몽이 준비되어 있습니다.
+        </>
       );
     } else if (text === '플랜P 프로젝트 팀원 알아보기') {
       return (
