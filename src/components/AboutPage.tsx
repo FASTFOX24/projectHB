@@ -38,12 +38,12 @@ const ACTION_BUTTONS = [
 ];
 
 const MAIN_BUTTONS = [
+  '출력일보 작성하기',
   '발표 외 AI 활용 아이디어 알아보기',
   '호반그룹 알아보기',
   '시세정보 알아보기',
   '오늘의 식단 알아보기',
-  '플랜P 프로젝트 팀원 알아보기',
-  '출력일보 작성하기'
+  '플랜P 프로젝트 팀원 알아보기'
 ];
 
 const MARKET_INFO_BUTTONS = ['환율', '자재시세'];
@@ -119,6 +119,49 @@ const GUIDE_DETAIL_BUTTONS = ['건축', '토목,조경', '설비,소방', 'TBM(�
 const GUIDE_DETAIL_TEXT = `매번 업데이트 되는 시공지침의 가장 최신 버전을 손쉽게 검색하고 찾아볼 수 있는 기능입니다. 챗봇형식으로 궁금한 시공지침에 대해 물어보고 HOBANAI가 가장 최신 버전의 지침을 알려주는 기능으로 복잡한 문서 탐색 없이 신속하게 필요한 정보를 제공받을 수 있습니다. 이를 통해 업무효율성과 정확성을 획기적으로 향상시킬 수 있습니다.\n
 (예시를 보고 싶으면 아래 버튼을 클릭하시오)`;
 
+const ConfirmModal = ({ isOpen, onClose, onConfirm }: { isOpen: boolean; onClose: () => void; onConfirm: () => void }) => {
+  if (!isOpen) return null;
+
+  return (
+    <ModalOverlay onClick={onClose}>
+      <div 
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          backgroundColor: 'white',
+          padding: '20px',
+          borderRadius: '8px',
+          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+          zIndex: 1000,
+          minWidth: '300px',
+          textAlign: 'center',
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div style={{ marginBottom: '20px', fontSize: '16px', color: 'black' }}>
+          출력일보를 작성하시겠습니까?
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <AboutButton 
+            onClick={onConfirm}
+            style={{ backgroundColor: '#f07a03', color: 'white' }}
+          >
+            예
+          </AboutButton>
+          <AboutButton 
+            onClick={onClose}
+            style={{ backgroundColor: '#e0e0e0' }}
+          >
+            아니요
+          </AboutButton>
+        </div>
+      </div>
+    </ModalOverlay>
+  );
+};
+
 export const AboutPage: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -140,6 +183,7 @@ export const AboutPage: React.FC = () => {
   ]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [modalImage, setModalImage] = useState<string | null>(null);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const handleRestart = () => {
     setMessages(prev => [
@@ -185,9 +229,13 @@ export const AboutPage: React.FC = () => {
     setModalImage(null);
   };
 
+  const handleConfirmModal = () => {
+    window.location.href = 'https://m.site.naver.com/1Jswn';
+  };
+
   const handleButtonClick = (text: string) => {
     if (text === "출력일보 작성하기") {
-      window.location.href = 'https://m.site.naver.com/1Jswn';
+      setIsConfirmModalOpen(true);
       return;
     }
 
@@ -537,6 +585,11 @@ TBM 운반에 대해서 설명드리겠습니다. <br /><br />
           <ModalImage src={modalImage} alt="확대 이미지" onClick={e => e.stopPropagation()} />
         </ModalOverlay>
       )}
+      <ConfirmModal 
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
+        onConfirm={handleConfirmModal}
+      />
     </ChatContainer>
   );
 };

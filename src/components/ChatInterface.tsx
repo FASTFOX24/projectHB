@@ -138,7 +138,7 @@ export const ChatInterface: React.FC = () => {
               src="/chart_2.png"
               onClick={() => { setModalImg('/chart_2.png'); setModalOpen(true); }}
             /><br />
-            공정표2은 지하 동 PIT 구간 타설을 우천이 예정된 24일로 가져온 공정표입니다.<br />
+            공정표2은 지하 동 PIT 구간 타설을 우천이 예정된 내일(20일)로 가져온 공정표입니다.<br />
             타설 선행공정이 완료되었을 때를 가정하고 작성한 공정표입니다.
           </span>
         ),
