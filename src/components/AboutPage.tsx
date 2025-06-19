@@ -43,7 +43,7 @@ const MAIN_BUTTONS = [
   '호반그룹 알아보기',
   '시세정보 알아보기',
   '오늘의 식단 알아보기',
-  '플랜P 프로젝트 팀원 알아보기'
+  '플랜P 팀원 알아보기'
 ];
 
 const MARKET_INFO_BUTTONS = ['환율', '자재시세'];
@@ -201,7 +201,11 @@ export const AboutPage: React.FC = () => {
             ))}
             <AboutButtonGroup>
               {MAIN_BUTTONS.map((text, idx) => (
-                <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+                <AboutButton
+                  key={idx}
+                  onClick={() => handleButtonClick(text)}
+                  style={text === '출력일보 작성하기' ? { backgroundColor: '#E0FFFF' } : {}}
+                >
                   {text}
                 </AboutButton>
               ))}
@@ -266,7 +270,11 @@ export const AboutPage: React.FC = () => {
           ))}
           <AboutButtonGroup>
             {MAIN_BUTTONS.map((text, idx) => (
-              <AboutButton key={idx} onClick={() => handleButtonClick(text)}>
+              <AboutButton
+                key={idx}
+                onClick={() => handleButtonClick(text)}
+                style={text === '출력일보 작성하기' ? { backgroundColor: 'rgb(176,224,230)' } : {}}
+              >
                 {text}
               </AboutButton>
             ))}
@@ -485,17 +493,19 @@ TBM 운반에 대해서 설명드리겠습니다. <br /><br />
         금일 점심메뉴는 보리밥/현미밥, 순두부찌개, 통가자미 구이, 옛날 소세지전&케찹, 모듬 묵&양념장, 오이사과 초무침/포기김치입니다. 총 892kcal이며, 후식으로는 믹스베리 샐러드와 자몽이 준비되어 있습니다.
         </>
       );
-    } else if (text === '플랜P 프로젝트 팀원 알아보기') {
+    } else if (text === '플랜P 팀원 알아보기') {
       return (
         <>
-          미션 코치 : 김관식 부장님<br /><br />
-          조원 : 황하람, 김용현, 정현우, 정명훈, 박성현<br /><br />
-          <span style={{fontWeight:"bold",color:"#f07a03"}}>김관식 </span>: Plan P의 미션코치<br />본사에서 건축직으로 근무중<br /><br />
-          <span style={{fontWeight:"bold",color:"#f07a03"}}>황하람</span>: Plan P의 조장 (발표 담당)<br />동북선 도시철도에서 토목직으로 근무 중.<br /><br />
-          <span style={{fontWeight:"bold",color:"#f07a03"}}>김용현</span>: Plan P의 조원(코딩 담당)<br />천안 일봉공원 2BL에서 건축직으로 근무 중.<br /><br />
-          <span style={{fontWeight:"bold",color:"#f07a03"}}>정명훈</span>: Plan P의 조원(코딩 담당)<br />오산세교2 A13BL에서 설비직으로 근무 중.<br /><br />
-          <span style={{fontWeight:"bold",color:"#f07a03"}}>정현우</span>: Plan P의 조원(PPT 담당)<br />춘천-속초 1공구에서 TBM 기계직으로 근무 중<br /><br />
-          <span style={{fontWeight:"bold",color:"#f07a03"}}>박상현</span>: Plan P의 조원(PPT 담당)<br />오산세교2 A13BL에서 건축직으로 근무 중.<br />
+          미션 코치 : 김관식 부장님<br/> 
+조원 : 황하람, 김용현, 정현우, 정명훈, 박성현 
+<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>김관식 </span>: Plan P의 미션코치<br />본사에서 공사지원팀으로 근무 중.<br/>
+          “그동안 수고 많았습니다. 좋은 결과 있길 응원합니다.” <br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>황하람</span>: Plan P의 조장 (발표 담당)<br />동북선 도시철도에서 토목직으로 근무 중.<br/>“준비하는 과정이 순탄치만은 않았지만 그만큼 의미있는 시간이었습니다! ”<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>김용현</span>: Plan P의 조원(코딩 담당)<br />천안 일봉공원 2BL에서 건축직으로 근무 중.<br/>“이번 프로젝트를 수행하면서, AI를 활용하여 무궁무진한 발전을 할 수 있다는 것을 체감하였습니다.”<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>정명훈</span>: Plan P의 조원(코딩 담당)<br />오산세교2 A13BL에서 설비직으로 근무 중.<br/>“현장직도 편하게 회의할 수 있도록 배려해준 덕분에 수월하게 준비할 수 있었습니다. AI시대를 맞이하는 호반건설에서 AI기술을 포함한 신기술을 적극 활용하는 직원으로 성장하겠습니다.”<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>정현우</span>: Plan P의 조원(PPT 담당)<br />춘천-속초 1공구에서 TBM 기계직으로 근무 중<br/>“이번 프로젝트를 통해 AI 기술뿐 아니라 문제를 정의하고 풀어가는 방식에서도 많이 성장할 수 있었습니다”<br /><br />
+          <span style={{fontWeight:"bold",color:"#f07a03"}}>박상현</span>: Plan P의 조원(PPT 담당)<br />오산세교2 A13BL에서 건축직으로 근무 중.<br/>“이번 프로젝트를 통해 팀원과 협력하여 결과물을 만들어내는 뜻깊은 시간이었습니다.” <br />
         </>
       );
     } else if (text === '시공지침') {
